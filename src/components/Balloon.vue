@@ -47,6 +47,23 @@ export default {
       
     };
   },
+  
+  created() {
+    //this.pos.x = this.x;
+   // this.pos.y = this.y;
+    console.log("speedgetter "+ this.speedgetter);
+    this.intervalID = window.setInterval(this.update, this.speedgetter);
+    
+   // this.animationFrameId = window.requestAnimationFrame(this.update);
+  },
+  computed: {
+    speedgetter(){
+      return this.$store.getters.speedGetter;
+    },
+    amountgetter(){
+      return this.$store.getters.amountGetter;
+    }
+  },
   methods: {
     update() {
       // this.y = this.y + 2.5;
@@ -72,6 +89,7 @@ export default {
       // const y = divRect.bottom;
       // console.log("LOG Ballon ", this.index, x, y);
     },
+    
   },
   beforeUpdate () {
     console.log("before Update Life Cycle");
@@ -79,12 +97,8 @@ export default {
   updated () {
     console.log("updated Life Cycle");
   },
-  created() {
-    //this.pos.x = this.x;
-   // this.pos.y = this.y;
-    this.intervalID = window.setInterval(this.update, 300);
-   // this.animationFrameId = window.requestAnimationFrame(this.update);
-  },
+  
+  
   beforeDestroy() {
     window.clearInterval(this.intervalID);
    //window.cancelAnimationFrame(this.animationFrameId);

@@ -3,7 +3,7 @@
     <WebGazer @update="onUpdate" :off="true" />
    
     <StartMenu  
-      v-if="!startTheGameBoolean"
+      v-if="!startTheGameBoolean && !highScoreBoolean"
       :startTheGame="startTheGameBoolean"
       :setting="settingBoolean"
       :highScore="highScoreBoolean"
@@ -24,10 +24,11 @@
         @updatePos="updateY"
       />
     </section>
-    <section v-if="highScoreBoolean">
+    <section v-else-if="highScoreBoolean">
       <p >Score={{score}}</p>
       <button @click="highScoreBoolean=false">hide Score</button>
     </section>
+
     
   </div>
 </template>
@@ -76,7 +77,7 @@ export default {
     updateY(){
 
       for (var i = 0; i < this.list.length; i++) {
-        this.list[i].y=this.list[0].y+ 2.5;
+        this.list[i].y=this.list[0].y + 1;
       } 
     },
     startPlaying(){
