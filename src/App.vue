@@ -12,7 +12,8 @@
     />
 
     <section v-else-if="startTheGameBoolean">
-      <button @click="startTheGameBoolean=false">finish the game</button>
+      <button @click="startTheGameBoolean=false">pause the game</button>
+      <button @click="stopTheGame">finish the game</button>
       <Balloon
         v-for="(item, index) of list"
         :key="index"
@@ -24,11 +25,11 @@
         @updatePos="updateY"
       />
     </section>
+
     <section v-else-if="highScoreBoolean">
       <p >Score={{score}}</p>
       <button @click="highScoreBoolean=false">hide Score</button>
     </section>
-
     
   </div>
 </template>
@@ -37,7 +38,8 @@
 import WebGazer from "@/components/WebGazer.vue";
 import StartMenu from "@/components/StartMenu.vue";
 import Balloon from "@/components/Balloon.vue";
-import {hello} from "@/util/init.js";
+//import Init from "@/util/init.js";
+//import {hello} from "@/util/init.js";
 
 export default {
   name: "App",
@@ -57,9 +59,7 @@ export default {
       score: 0,
       startTheGameBoolean: false,
       settingBoolean: false,
-      highScoreBoolean: false,
-
-      
+      highScoreBoolean: false,    
     };
   },
   methods: {
@@ -75,20 +75,17 @@ export default {
       //console.log(this.list);
     },
     updateY(){
-
       for (var i = 0; i < this.list.length; i++) {
-        this.list[i].y=this.list[0].y + 1;
+        this.list[i].y=this.list[0].y + 2;
       } 
     },
-    startPlaying(){
-     // this.startTheGameBoolean =true;
-    },
-    stopPlaying(){
-      //this.startTheGameBoolean=false;
+    stopTheGame(){
+      //this.unmount();
     }
   },
   mounted () {
-    hello();
+    //Init.hello();
+    //hello();
   },
   
 };

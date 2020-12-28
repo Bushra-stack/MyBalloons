@@ -8,7 +8,6 @@ export default new Vuex.Store({
     settingsOn:false,
     speed: 500,
     amount: 10,
-    
   },
   getters: {
     isSettingsOn: state => {
@@ -24,19 +23,15 @@ export default new Vuex.Store({
   mutations: {
     goToSettings(state){
       state.settingsOn=true;
-      console.log("Go to Setting "+ state.settingsOn)
     },
     backFromSettings(state){
       state.settingsOn=false;
-      console.log("back from Setting "+ state.settingsOn);
     },
     saveSettings(state, payload){
       state.speed= payload.speed; 
       state.amount=payload.amount;
       console.log("save Setting "+ state.speed);
       console.log("save Setting "+ state.amount);
-
-
     }
   },
   actions: {

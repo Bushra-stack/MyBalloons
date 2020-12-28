@@ -13,7 +13,6 @@ import webgazer from "webgazer";
                 default: false,
             },
         },
-
         data : function(){
             return {
                 x: 0,
@@ -36,23 +35,12 @@ import webgazer from "webgazer";
                          }
                      })
                     .begin();
-                    //var prediction = webgazer.getCurrentPrediction();
-                    //if (prediction) {
-                    //    thiz.x = prediction.x;
-                    //    thiz.y = prediction.y;
-                    //    thiz.$emit("update", { x: prediction.x, y: prediction.y });
-                    //}
                 webgazer.showPredictionPoints(true);
             }
         },
         beforeDestroy() {
             webgazer.end();
         },
-        // var prediction = webgazer.getCurrentPrediction();
-        // if (prediction) {
-        //     var x = prediction.x;
-        //     var y = prediction.y;
-        // };
     }
 </script>
 

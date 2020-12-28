@@ -1,5 +1,4 @@
 <template>
-  <!-- v-bind:id="`div-ballon-${index}`" -->
   <div
     ref="balloon"
     class="balloon"
@@ -39,22 +38,13 @@ export default {
     return {
       intervalID: 0,
       animationFrameId: 0,
-    /*pos: {
-        x: 0,
-        y: 0,
-      },*/
       clockwise: true,
-      
     };
   },
   
   created() {
-    //this.pos.x = this.x;
-   // this.pos.y = this.y;
     console.log("speedgetter "+ this.speedgetter);
-    this.intervalID = window.setInterval(this.update, this.speedgetter);
-    
-   // this.animationFrameId = window.requestAnimationFrame(this.update);
+    this.intervalID = window.setInterval(this.update, this.speedgetter);    
   },
   computed: {
     speedgetter(){
@@ -66,42 +56,24 @@ export default {
   },
   methods: {
     update() {
-      // this.y = this.y + 2.5;
-      // this.$emit('updatePos',this.y)
       this.$emit('updatePos');
       if(this.clockwise){
         this.$refs.balloon.style.transform = "rotate(10deg)"; 
-
       }else{
         this.$refs.balloon.style.transform = "rotate(-10deg)"; 
-
       }
       this.clockwise=!this.clockwise;
-      console.log("update method");
-      //this.animationFrameId = window.requestAnimationFrame(this.update);
-      
-      /* getElementById */
-      // const div = window.getElementById("");
-      /* refs */
-      // const div = this.$refs.balloon;
-      // const divRect = div.getBoundingClientRect();
-      // const x = divRect.left;
-      // const y = divRect.bottom;
-      // console.log("LOG Ballon ", this.index, x, y);
+      //console.log("update method");
     },
-    
   },
   beforeUpdate () {
-    console.log("before Update Life Cycle");
+    //console.log("before Update Life Cycle");
   },
   updated () {
-    console.log("updated Life Cycle");
+   // console.log("updated Life Cycle");
   },
-  
-  
   beforeDestroy() {
     window.clearInterval(this.intervalID);
-   //window.cancelAnimationFrame(this.animationFrameId);
   },
 };
 </script>
@@ -115,9 +87,6 @@ div {
   box-shadow:inset -10px -10px 0 rgba(0,0,0,0.07);
 }
 
-.balloon {
-   
-}
 .balloon:before {
   content:"▲";
   font-size:20px;

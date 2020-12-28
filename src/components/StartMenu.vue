@@ -2,7 +2,6 @@
     <div
         refs="startMenu"
         class="startMenu"
-        
     >
         <button v-if="!isSettingOn" @click="startGame" >Start The Game</button>
         <button v-if="!isSettingOn" @click="goToSetting">Setting</button>
@@ -26,15 +25,10 @@ import GameSettings from './GameSettings.vue';
                 type: Boolean,
                 default: false,
             },
-            // setting:{
-            //     type: Boolean,
-            //     default: false,
-            // },
             highScore:{
                 type: Boolean,
                 default: false,
             },
-
         },
         methods:{
             startGame(){
@@ -44,11 +38,11 @@ import GameSettings from './GameSettings.vue';
             },
             goToSetting(){
                 this.$store.commit('goToSettings');
-                
+                console.log("go to Setting "+ this.$store.state.settingsOn); 
             },
             backFromSetting(){
                 this.$store.commit('backFromSettings');
-               
+                console.log("back from Setting "+ this.$store.state.settingsOn);
             },
             showHighScore(){
                 this.$emit('highScoreOn',true);
@@ -57,7 +51,6 @@ import GameSettings from './GameSettings.vue';
             saveSetting(){
                 this.$store.commit('saveSettings', {speed: 2000 , amount: 10});
             }    
-        
         },
         computed: {
             isSettingOn(){

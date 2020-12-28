@@ -15,21 +15,6 @@
 <script>
     export default {
         name: "settings",
-
-        // props: {
-        //     speed: {
-        //         type: Number,
-        //         default: 3,
-        //     },
-        // },
-        // vuex: {
-        //     getters: {
-        //         counters: state => state.counters
-        //     },
-        //     actions: actions
-        // },
-        
-        // },  
     }
 </script>
 
