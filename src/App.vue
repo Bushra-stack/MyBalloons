@@ -12,7 +12,7 @@
     />
 
     <section v-else-if="startTheGameBoolean">
-      <button @click="startTheGameBoolean=false; newY=false">pause the game</button>
+      <button @click="pauseTheGame">pause the game</button>
       <button @click="stopTheGame">finish the game</button>
       <Balloon
         v-for="(item, index) of list"
@@ -29,7 +29,9 @@
     </section>
 
     <section v-else-if="highScoreBoolean">
-      <p >Score={{score}}</p>
+      <p >Current Score={{score}}</p>
+      <p >Highest Score={{highestScore}}</p>
+
       <button @click="highScoreBoolean=false">hide Score</button>
     </section>
 
@@ -55,20 +57,28 @@ export default {
       x_wg: 0,
       y_wg: 0,
       score: 0,
+      highestScore: 0,
       startTheGameBoolean: false,
       settingBoolean: false,
       highScoreBoolean: false,
       newY: true,
+      amountFromComputed: 2,
+      windowWidth: window.innerWidth,
     };
   },
   created () {
+    if((JSON.parse(window.localStorage.getItem('high Score'))) == null){
+      window.localStorage.setItem('high Score', this.score);
+    }else {
+      console.log("vorhanden "+ JSON.parse(window.localStorage.getItem('high Score')));
+      this.highestScore = JSON.parse(window.localStorage.getItem('high Score'));
+      
+    }
     console.log(this.amountgetter);
     var i = 0;
-    var j = i;
-    for(i ; i < this.amountgetter;  i++){
-      var w =window.innerWidth - 75;
-      this.list.splice(this.list.length, 0 ,{ x: Init.random(50,w), y: 0, color: this.colorList[j] });
-      j < 20 ? j++ : 0;
+    for(i ; i < (this.amountgetter - 1);  i++){
+      this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth), y: 0, color: this.colorList[i] });
+
     }
   },
   methods: {
@@ -81,14 +91,43 @@ export default {
     onBalloonClick(index) {
       this.list.splice(index, 1);
       this.score++;
+      if(JSON.parse(window.localStorage.getItem('high Score'))<this.score){
+        window.localStorage.setItem('high Score', this.score);
+      }
       //console.log(this.list);
     },
     updateY(index){
+      if(this.list.length == this.amountgetter){
+        console.log(this.list.length);
+        console.log(this.amountgetter);
         console.log(index);
         this.list[index].y=this.list[index].y + 50;
+      }else {
+        this.updateList();
+      }
+     
+    },
+    pauseTheGame(){
+      this.startTheGameBoolean=false; 
+      this.newY=false; 
+      //window.localStorage.setItem('high Score', this.score);
     },
     stopTheGame(){
       //this.unmount();
+    },
+    updateList(){
+      var diff= 0;
+      if(this.list.length > this.amountgetter){
+        //delete vue.delete??
+        diff = this.list.length -this.amountgetter
+        this.list.splice(this.amountgetter, diff);
+        console.log("größer"+this.list.length);
+      }else if (this.list.length < this.amountgetter){
+        //add vue.set??
+        this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-250, 100), color: this.colorList[this.list.length-1] } );
+        console.log("kleiner"+this.list.length);
+      }
+
     },
     getRandomY(index){
       if(this.newY){

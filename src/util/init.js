@@ -20,17 +20,27 @@ const colorList = [
     "pink",
     "green",
     "blue",
-    "brown",
+    "brown",//10
     "chartreuse",
     "indigo",
     "DarkSlateBlue",
     "Coral",
     "Chocolate",
     "Gold",
+    "Crimson",
     "MediumBlue",
     "SlateGray",
-    "Magenta",
+    "Magenta",//20
     "FireBrick",
+    "DarkSalmon",
+    "SeaGreen",
+    "SpringGreen",
+    "SteelBlue",
+    "CornflowerBlue",
+    "PowderBlue",
+    "Moccasin",
+    "Orchid",
+    "Aqua", //30 //don't need it
   ]
 export default { hello, bye, random, colorList}
 //module.exports={ hello, bye}

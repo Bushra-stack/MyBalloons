@@ -59,11 +59,11 @@ export default {
       return this.$store.getters.speedGetter;
     }
   },
-    created(index) {
-        this.$emit('randomY',index);
-        console.log("speedgetter "+ this.speedgetter);
-        this.intervalID = window.setInterval(this.update, this.speedgetter);    
-    },
+  created(index) {
+      this.$emit('randomY',index);
+      console.log("speedgetter "+ this.speedgetter);
+      this.intervalID = window.setInterval(this.update, this.speedgetter);    
+  },
   beforeUpdate () {
     //console.log("before Update Life Cycle");
   },
