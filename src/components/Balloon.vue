@@ -23,7 +23,8 @@ export default {
     },
     y: {
       type: Number,
-      default: 0,
+    //default: Math.floor(Math.random() * (Math.floor(0) - Math.floor(-10) + 1)  -10),
+      default:0,
     },
     color: {
       type: String,
@@ -41,22 +42,9 @@ export default {
       clockwise: true,
     };
   },
-  
-  created() {
-    console.log("speedgetter "+ this.speedgetter);
-    this.intervalID = window.setInterval(this.update, this.speedgetter);    
-  },
-  computed: {
-    speedgetter(){
-      return this.$store.getters.speedGetter;
-    },
-    amountgetter(){
-      return this.$store.getters.amountGetter;
-    }
-  },
   methods: {
-    update() {
-      this.$emit('updatePos');
+    update(index) {
+      this.$emit('updatePos',index);
       if(this.clockwise){
         this.$refs.balloon.style.transform = "rotate(10deg)"; 
       }else{
@@ -66,6 +54,16 @@ export default {
       //console.log("update method");
     },
   },
+  computed: {
+    speedgetter(){
+      return this.$store.getters.speedGetter;
+    }
+  },
+    created(index) {
+        this.$emit('randomY',index);
+        console.log("speedgetter "+ this.speedgetter);
+        this.intervalID = window.setInterval(this.update, this.speedgetter);    
+    },
   beforeUpdate () {
     //console.log("before Update Life Cycle");
   },
@@ -95,7 +93,7 @@ div {
   text-align:center;
   width:100%;
   position:absolute;
-  bottom:-12px;
+  bottom:-12px; 
   z-index:-100;
 }
 

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <WebGazer @update="onUpdate" :off="true" />
-   
-    <StartMenu  
+
+    <StartMenu
       v-if="!startTheGameBoolean && !highScoreBoolean"
       :startTheGame="startTheGameBoolean"
       :setting="settingBoolean"
@@ -12,7 +12,7 @@
     />
 
     <section v-else-if="startTheGameBoolean">
-      <button @click="startTheGameBoolean=false">pause the game</button>
+      <button @click="startTheGameBoolean=false; newY=false">pause the game</button>
       <button @click="stopTheGame">finish the game</button>
       <Balloon
         v-for="(item, index) of list"
@@ -21,16 +21,18 @@
         :y="item.y"
         :color="item.color"
         :index="index"
+        @randomY="getRandomY(index)"
         @balloon-click="onBalloonClick"
-        @updatePos="updateY"
+        @updatePos="updateY(index)"
       />
+
     </section>
 
     <section v-else-if="highScoreBoolean">
       <p >Score={{score}}</p>
       <button @click="highScoreBoolean=false">hide Score</button>
     </section>
-    
+
   </div>
 </template>
 
@@ -38,7 +40,7 @@
 import WebGazer from "@/components/WebGazer.vue";
 import StartMenu from "@/components/StartMenu.vue";
 import Balloon from "@/components/Balloon.vue";
-//import Init from "@/util/init.js";
+import Init from "@/util/init.js";
 //import {hello} from "@/util/init.js";
 
 export default {
@@ -48,19 +50,26 @@ export default {
     return {
       list: [
         { x: 0, y: 0, color: "red" },
-        { x: 90, y: 0, color: "blue" },
-        { x: 190, y: 0, color: "green" },
-        { x: 290, y: 0, color: "pink" },
-        { x: 370, y: 0, color: "cyan" },
-        { x: 460, y: 0, color: "orange" },
       ],
+      colorList: Init.colorList,
       x_wg: 0,
       y_wg: 0,
       score: 0,
       startTheGameBoolean: false,
       settingBoolean: false,
-      highScoreBoolean: false,    
+      highScoreBoolean: false,
+      newY: true,
     };
+  },
+  created () {
+    console.log(this.amountgetter);
+    var i = 0;
+    var j = i;
+    for(i ; i < this.amountgetter;  i++){
+      var w =window.innerWidth - 75;
+      this.list.splice(this.list.length, 0 ,{ x: Init.random(50,w), y: 0, color: this.colorList[j] });
+      j < 20 ? j++ : 0;
+    }
   },
   methods: {
     onUpdate(coord) {
@@ -74,27 +83,31 @@ export default {
       this.score++;
       //console.log(this.list);
     },
-    updateY(){
-      for (var i = 0; i < this.list.length; i++) {
-        this.list[i].y=this.list[0].y + 2;
-      } 
+    updateY(index){
+        console.log(index);
+        this.list[index].y=this.list[index].y + 50;
     },
     stopTheGame(){
       //this.unmount();
-    }
+    },
+    getRandomY(index){
+      if(this.newY){
+        this.list[index].y= Init.random(-250, 100);// (min,max)
+      }
+    },
+  },
+  computed: {
+    amountgetter(){
+      return this.$store.getters.amountGetter;
+    },
   },
   mounted () {
     //Init.hello();
     //hello();
   },
-  
+
 };
 </script>
 
 <style scoped >
-#app {
-}
-
-
-
 </style>
