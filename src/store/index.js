@@ -5,13 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    settingsOn:false,
     speed: 500,
     amount: 10,
+    score:0,
+    stateMachine: "StartMenu",
   },
   getters: {
-    isSettingsOn: state => {
-      return state.settingsOn;
+    stateMachineGetter: state => {
+      return state.stateMachine;
     },
     speedGetter: state => {
       return state.speed;
@@ -19,20 +20,24 @@ export default new Vuex.Store({
     amountGetter: state => {
       return state.amount;
     },
+    scoreGetter: state => {
+      return state.score;
+    },
   },
   mutations: {
-    goToSettings(state){
-      state.settingsOn=true;
-    },
-    backFromSettings(state){
-      state.settingsOn=false;
+    changeStateMachine(state, payload){
+      state.stateMachine=payload;
+      console.log(`New State Machine is ${state.stateMachine}`);
     },
     saveSettings(state, payload){
       state.speed= payload.speed; 
       state.amount=payload.amount;
       console.log("save Setting "+ state.speed);
       console.log("save Setting "+ state.amount);
-    }
+    },
+    incrementScore(state){
+      state.score++;
+    },
   },
   actions: {
   },

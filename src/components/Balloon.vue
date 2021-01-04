@@ -46,9 +46,9 @@ export default {
     update(index) {
       this.$emit('updatePos',index);
       if(this.clockwise){
-        this.$refs.balloon.style.transform = "rotate(10deg)"; 
+        this.$refs.balloon.style.transform = "rotate(5deg)"; 
       }else{
-        this.$refs.balloon.style.transform = "rotate(-10deg)"; 
+        this.$refs.balloon.style.transform = "rotate(-5deg)"; 
       }
       this.clockwise=!this.clockwise;
       //console.log("update method");
