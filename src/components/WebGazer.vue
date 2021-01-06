@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+        <button @click="toggle">Toggle</button>
     </div>
 </template>
 
@@ -26,7 +26,38 @@ import webgazer from "webgazer";
             },
         },
         methods: {
-
+            async integrat(){
+                const thiz = this;
+                window.applyCalmanFilter = true;
+                window.saveDataAccrossSessions = true;
+                webgazer.params.showVideoPreview = true;
+                await webgazer
+                    .setRegression("ridge")
+                     .setGazeListener(function(data) {
+                         if (data) {
+                             thiz.x = data.x;
+                             thiz.y = data.y;
+                             thiz.$emit("update", { x: data.x, y: data.y });
+                         }
+                     })
+                    .begin();
+                webgazer.showPredictionPoints(true);
+            },
+            toggle(){
+                console.log(this.off);
+                this.off=!this.off;
+                console.log(this.off);
+                if(this.off){
+                    this.integrat();
+                }else{
+                    console.log("before Destroy "+this.off);
+                    window.applyKalmanFilter= false;           
+                    webgazer.params.showVideoPreview = false; 
+                    webgazer.showPredictionPoints(false); 
+                    webgazer.end();
+                    console.log("end");
+                }
+            },
         },
         async created() {
            // if (window && !this.off) {

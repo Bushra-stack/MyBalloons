@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <!-- <WebGazer @update="onUpdate" :off="true" /> -->
+    <WebGazer @update="onUpdate"  /> 
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
-    <WebGazer v-if="off" @update="onUpdate" :off="off"/>
+    <!-- <WebGazer v-if="off" @update="onUpdate" :off="off"/> -->
 
     <StartMenu v-if= "stateMachinegetter === 'StartMenu'"
       @gameStarted="startTheGameBoolean=$event"
