@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -9,6 +10,7 @@ export default new Vuex.Store({
     amount: 10,
     score:0,
     stateMachine: "StartMenu",
+    eyetracking: false,
   },
   getters: {
     stateMachineGetter: state => {
@@ -22,6 +24,9 @@ export default new Vuex.Store({
     },
     scoreGetter: state => {
       return state.score;
+    },
+    eyetrackingGetter: state => {
+      return state.eyetracking;
     },
   },
   mutations: {
@@ -37,6 +42,14 @@ export default new Vuex.Store({
     },
     incrementScore(state){
       state.score++;
+    },
+    resetScore(state){
+      state.score=0;
+    },
+    changeEyetracking(state, payload){
+      state.eyetracking=payload;
+      console.log(`Eyetracking is ${state.eyetracking}`);
+      
     },
   },
   actions: {

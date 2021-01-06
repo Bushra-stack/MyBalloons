@@ -23,7 +23,9 @@
 <script>
 import Balloon from "./Balloon.vue";
 import Init from "@/util/init.js";
-import Confetti from "@/util/confetti.js-master/confetti.js";
+//import Confetti from "@/util/confetti.js-master/confetti.js";
+//import Party from "@/util/party-js-master/party.js";
+
     export default {
         name: "Game",
         components: {Balloon},
@@ -55,13 +57,11 @@ import Confetti from "@/util/confetti.js-master/confetti.js";
             pauseTheGame(){
                 this.$store.commit('changeStateMachine', "GamePaused");
                 this.newY=false;
-                //window.localStorage.setItem('high Score', this.score);
             },
             stopTheGame(){
                 this.$store.commit('changeStateMachine', "StartMenu");
                 this.list = [];
-               // this.score =0;
-                this.startTheGameBoolean=false;
+                this.resetmyScore();
             },
             continuePlaying(){
                 this.$store.commit('changeStateMachine', 'GameStarted') 
@@ -70,14 +70,25 @@ import Confetti from "@/util/confetti.js-master/confetti.js";
                 this.$store.commit('incrementScore');
                 console.log("scoregetter is: "+ this.scoregetter);
             },
+            resetmyScore(){
+                this.$store.commit('resetScore');
+            },
             onBalloonClick(index) {
                 this.list.splice(index, 1);
                 this.incrementmyScore();
                 if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
                     window.localStorage.setItem('High Score', this.scoregetter);
                     alert("Yahoo! You reached an new high score!!");
-                    Confetti.startConfetti();
-
+                    //Confetti.startConfetti();
+                    // Party.screen({ 
+                    //     count: 500 * (window.innerWidth / 1980),
+                    //     countVariation: 0.5,
+                    //     angleSpan: 0,
+                    //     yVelocity: -100,
+                    //     yVelocityVariation: 2,
+                    //     rotationVelocityLimit: 6,
+                    //     scaleVariation: 0.8
+                    // });
                 }
                 //console.log(this.list);
             },
@@ -145,10 +156,10 @@ import Confetti from "@/util/confetti.js-master/confetti.js";
 	text-shadow:0px 1px 0px #810e05;
 }
 #pauseButton{
-    box-shadow:inset 0px 1px 0px 0px #f7c5c0;
-	background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
-	background-color:#fc8d83;
-	border:1px solid #d83526;
+    box-shadow:inset 0px 1px 0px 0px #eece8a;
+	background:linear-gradient(to bottom, #e7bb5c 5%, #d49100 100%);
+	background-color:#F5AB07;
+	border:1px solid #eec303;
     margin: 0%;
 }
 #continueButton{
@@ -166,8 +177,8 @@ import Confetti from "@/util/confetti.js-master/confetti.js";
 	background-color:#77a809;
 }
 #pauseButton:hover{
-    background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
-	background-color:#e4685d;
+    background:linear-gradient(to bottom, #f5c763 5%, rgb(247, 222, 6) 100%);
+	background-color:#f5c04f;
 }
 #stopButton:active {
 	position:relative;
@@ -175,8 +186,8 @@ import Confetti from "@/util/confetti.js-master/confetti.js";
 }
 #game-score{
     font-size: 125%;
-    color: #c62d1f;
-    text-shadow:5px 2px 1px #8CCE9A;
+    color: #F5AB07;
+    text-shadow:5px 2px 1px #eef3d9;
     font-family: Georgia, serif;
     font-size: 35px;
     letter-spacing: 1.4px;

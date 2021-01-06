@@ -4,26 +4,34 @@
         <p>{{speedOfInput }}</p>
         <input v-model="speedOfInput" type="range" id="speed" name="speed" 
          min="100" max="2000" value="300" step="100" >
-        
 
         <label for="amount">Amount</label>
         <p>{{amountValue}}</p>
         <input  v-model="amountValue" type="range" id="amount" name="amount" 
          min="0" max="30" value="10" step="1">
         
-
+        <p id="control">Control with:</p>
+        <label class="control" for="mouse">Mouse</label>
+        <input class="control" type="radio" id="mouse" name="control" value="mouse" checked>
+        <label class="control" for="eyetracking">Eyetracking</label>
+        <input class="control" type="radio" id="eyetracking" name="control" value="eyetracking"><br/>
+        
+        <label for="color">Adapt Color</label><br>
+        <input type="checkbox" id="color" name="color" value="false"/>    
+        
         <button @click="backFromSetting" class="backButton">Back</button>
         <button @click="saveSetting" class="saveButton">Save</button>
     </div>    
 </template>
 
 <script>
+//import webgazer from "webgazer";
     export default {
         name: "settings",
         data() {
             return {
-                speedOfInput: 100,
-                amountValue: 0,
+                speedOfInput: 200,
+                amountValue: 5,
             }
         },
         methods: {
@@ -31,6 +39,9 @@
                 this.$store.commit('changeStateMachine', "StartMenu");
             },
             saveSetting(){
+                var eyetracking= document.getElementById('eyetracking').checked ? true : false;
+                //this.$store.commit('changeEyetracking', eyetracking);
+                this.$emit('changeControl',eyetracking);
                 var speedValuee = 2000 - this.speedOfInput +100 ;
                 this.$store.commit('saveSettings', {speed: speedValuee , amount: this.amountValue});
             },
@@ -44,6 +55,7 @@
 </script>
 
 <style scoped>
+
 p{
     font-size: 125%;
     color: #21963a;
@@ -51,10 +63,10 @@ p{
 }
 input{
     display: block;
-    margin: 10px  auto 15px auto ;
+    margin: 10px  auto 20px auto ;
     width: 40%;
 }
-label{
+label, #control{
     font-size: 125%;
     color: #1e62d0;
     text-shadow:5px 2px 1px #8CCE9A;
@@ -118,5 +130,29 @@ label{
 .backButton:active {
 	position:relative;
 	top:1px;
-}    
+}   
+#color{
+    width:45px;
+    height:45px;
+    margin: 30px  auto 15px auto ; 
+}
+.control{
+    font-family: unset;
+    font-size: unset;
+    letter-spacing: unset;
+    word-spacing: unset;
+    font-weight: unset;
+    text-transform: unset;
+    font-size: 125%;
+    color: #21963a;
+    text-shadow: #eceaea 1px 1px 0;
+    height: 15px;
+        width: 15px;
+        vertical-align: middle;
+}
+.control input{
+     height: 15px;
+        width: 15px;
+        vertical-align: middle;
+}
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <WebGazer @update="onUpdate" :off="true" />
+    <!-- <WebGazer @update="onUpdate" :off="true" /> -->
+    <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
+    <WebGazer v-if="off" @update="onUpdate" :off="off"/>
 
     <StartMenu v-if= "stateMachinegetter === 'StartMenu'"
       @gameStarted="startTheGameBoolean=$event"
@@ -10,7 +12,7 @@
     </section>
 
     <section v-if= "stateMachinegetter === 'SettingSelected'">
-      <GameSettings/>
+      <GameSettings @changeControl="changeTheControl"/>
     </section>
 
     <section  v-if= "stateMachinegetter === 'HighScore'" >
@@ -37,20 +39,29 @@ export default {
       x_wg: 0,
       y_wg: 0,
       highestScore: 0,
+      off: false,
     };
   },
   methods: {
     onUpdate(coord) {
       this.x_wg = coord.x;
       this.y_wg = coord.y;
-      console.log('This is X-Value:',this.x_wg);
-      console.log('This is Y-Value:',this.y_wg);
+      // console.log('This is X-Value:',this.x_wg);
+      // console.log('This is Y-Value:',this.y_wg);
     },
+    changeTheControl(value){
+      this.off = value;
+      console.log('changeTheControl ' + value);
+    }
   },
+  
   computed: {
     stateMachinegetter(){
       return this.$store.getters.stateMachineGetter;
     },
+    eyetrackinggetter() {
+      return this.$store.getters.eyetrackingGetter; 
+    }
   },
   // watch: {
   //   state(newValue, oldValue) {

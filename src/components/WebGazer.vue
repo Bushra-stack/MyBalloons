@@ -1,5 +1,6 @@
 <template>
     <div>
+        
     </div>
 </template>
 
@@ -19,8 +20,17 @@ import webgazer from "webgazer";
                 y: 0,
             };
         },
+        computed: {
+            eyetrackinggetter() {
+                return this.$store.getters.eyetrackingGetter; 
+            },
+        },
+        methods: {
+
+        },
         async created() {
-            if (window && !this.off) {
+           // if (window && !this.off) {
+            if (window && this.off){
                 const thiz = this;
                 window.applyCalmanFilter = true;
                 window.saveDataAccrossSessions = true;
@@ -38,8 +48,19 @@ import webgazer from "webgazer";
                 webgazer.showPredictionPoints(true);
             }
         },
+        beforeUpdate () {
+            console.log("off befor update  "+this.off);
+        },
+        updated () {
+            
+        },
         beforeDestroy() {
+            console.log("before Destroy "+this.off);
+            window.applyKalmanFilter= false;           
+            webgazer.params.showVideoPreview = false; 
+            webgazer.showPredictionPoints(false); 
             webgazer.end();
+            console.log("end");
         },
     }
 </script>
