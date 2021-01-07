@@ -44,10 +44,8 @@ import webgazer from "webgazer";
                 webgazer.showPredictionPoints(true);
             },
             toggle(){
-                console.log(this.off);
-                this.off=!this.off;
-                console.log(this.off);
-                if(this.off){
+                this.$store.commit('changeEyetracking',{value: !this.eyetrackinggetter});
+                if(this.eyetrackinggetter){
                     this.integrat();
                 }else{
                     console.log("before Destroy "+this.off);

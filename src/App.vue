@@ -1,5 +1,19 @@
 <template>
   <div id="app">
+    <!-- <div
+    ref="balloon"
+    class="balloon"
+    v-bind:style="{
+    width: `${100}px`, x
+    height: `${120}px`, y
+    border: `${5}px solid red`,
+    position: `absolute`,
+    background: `black`,
+    left: `${50}px`, x
+    bottom: `${23}px`, y
+    }"
+    > 
+    </div> -->
     <WebGazer @update="onUpdate"  /> 
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
     <!-- <WebGazer v-if="off" @update="onUpdate" :off="off"/> -->
@@ -8,7 +22,7 @@
       @gameStarted="startTheGameBoolean=$event"
     />
     <section v-if= "stateMachinegetter === 'GameStarted' || stateMachinegetter === 'GamePaused'" >
-      <Game/>
+      <Game :xWG="x_wg" :yWG="y_wg"/>
     </section>
 
     <section v-if= "stateMachinegetter === 'SettingSelected'">

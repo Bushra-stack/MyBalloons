@@ -11,6 +11,7 @@ export default new Vuex.Store({
     score:0,
     stateMachine: "StartMenu",
     eyetracking: false,
+    counterColorList: 0,
   },
   getters: {
     stateMachineGetter: state => {
@@ -28,6 +29,10 @@ export default new Vuex.Store({
     eyetrackingGetter: state => {
       return state.eyetracking;
     },
+    counterColorListGetter: state => {
+      return state.counterColorList;
+    },
+
   },
   mutations: {
     changeStateMachine(state, payload){
@@ -47,9 +52,16 @@ export default new Vuex.Store({
       state.score=0;
     },
     changeEyetracking(state, payload){
-      state.eyetracking=payload;
+      state.eyetracking=payload.value;
       console.log(`Eyetracking is ${state.eyetracking}`);
-      
+    },
+    incrementCounterColorList(state){
+      if(state.counterColorList >= 29){
+        state.counterColorList=0;
+      }else{
+        state.counterColorList++;
+      }
+      console.log("the counter"+ state.counterColorList);
     },
   },
   actions: {

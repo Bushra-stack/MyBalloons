@@ -29,6 +29,16 @@ import Init from "@/util/init.js";
     export default {
         name: "Game",
         components: {Balloon},
+        props: {
+            xWG: {
+                type: Number,
+                default: 0,
+            },
+            yWG: {
+                type: Number,
+                default: 0,
+            },
+        },
         data() {
             return {
                 state: "stop", //play. pause
@@ -41,17 +51,20 @@ import Init from "@/util/init.js";
             };
         },
         created () {
+            console.log("Color counter "+this.counterColorListgetter);
             if((JSON.parse(window.localStorage.getItem('High Score'))) == null){
                 window.localStorage.setItem('High Score', this.scoregetter);
             }else {
-                console.log("vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
+                console.log("high score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
                 this.highestScore = JSON.parse(window.localStorage.getItem('High Score'));
             }
             console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
-                this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth -100), y: 0, color: this.colorList[i] });
+                this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth -100), y: 0, color: this.colorList[this.counterColorListgetter] });
+                this.$store.commit('incrementCounterColorList');
             }
+            console.log("Color counter "+this.counterColorListgetter);
         },
         methods: {
             pauseTheGame(){
@@ -69,13 +82,6 @@ import Init from "@/util/init.js";
             incrementmyScore(){
                 this.$store.commit('incrementScore');
                 console.log("scoregetter is: "+ this.scoregetter);
-            },
-            resetmyScore(){
-                this.$store.commit('resetScore');
-            },
-            onBalloonClick(index) {
-                this.list.splice(index, 1);
-                this.incrementmyScore();
                 if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
                     window.localStorage.setItem('High Score', this.scoregetter);
                     alert("Yahoo! You reached an new high score!!");
@@ -90,17 +96,31 @@ import Init from "@/util/init.js";
                     //     scaleVariation: 0.8
                     // });
                 }
+            },
+            resetmyScore(){
+                this.$store.commit('resetScore');
+            },
+            onBalloonClick(index) {
+                this.list.splice(index, 1);
+                this.incrementmyScore();
                 //console.log(this.list);
             },
-            updateY(index){
+           updateY(index){
+                if(this.eyetrackinggetter){
+                    if(this.xWG >= this.list[index].x -10 && this.xWG <= this.list[index].x + 110 && this.yWG >= this.list[index].y -10 && this.yWG <= this.list[index].y + 130){
+                        this.list.splice(index, 1);
+                        this.incrementmyScore();
+                    }
+                }
                 if(this.list.length == this.amountgetter){
-                    console.log(this.list.length);
-                    console.log(this.amountgetter);
-                    console.log(index);
+                    // console.log(this.list.length);
+                    // console.log(this.amountgetter);
+                    // console.log(index);
                     this.list[index].y=this.list[index].y + 10;
                 }else {
                     this.updateList();
                 }
+                
             },
             updateList(){
                 var diff= 0;
@@ -110,9 +130,9 @@ import Init from "@/util/init.js";
                     this.list.splice(this.amountgetter, diff);
                     console.log("größer"+this.list.length);
                 }else if (this.list.length < this.amountgetter){
-                    //add vue.set??
-                    this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-250, 100), color: this.colorList[this.list.length-1] } );
+                    this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-250, 100), color: this.colorList[this.counterColorListgetter] } );
                     console.log("kleiner"+this.list.length);
+                    this.$store.commit('incrementCounterColorList');
                 }
             },
             getRandomY(index){
@@ -130,6 +150,12 @@ import Init from "@/util/init.js";
             },
             scoregetter(){
                 return this.$store.getters.scoreGetter;
+            },
+            eyetrackinggetter(){
+                return this.$store.getters.eyetrackingGetter;
+            },
+            counterColorListgetter(){
+                return this.$store.getters.counterColorListGetter;
             }
         }
     }

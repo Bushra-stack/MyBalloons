@@ -23,7 +23,6 @@ export default {
     },
     y: {
       type: Number,
-    //default: Math.floor(Math.random() * (Math.floor(0) - Math.floor(-10) + 1)  -10),
       default:0,
     },
     color: {
