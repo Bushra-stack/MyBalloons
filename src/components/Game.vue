@@ -105,22 +105,18 @@ import Init from "@/util/init.js";
                 this.incrementmyScore();
                 //console.log(this.list);
             },
-           updateY(index){
+            updateY(index){
                 if(this.eyetrackinggetter){
-                    if(this.xWG >= this.list[index].x -10 && this.xWG <= this.list[index].x + 110 && this.yWG >= this.list[index].y -10 && this.yWG <= this.list[index].y + 130){
-                        this.list.splice(index, 1);
-                        this.incrementmyScore();
-                    }
+                    // if(this.xWG >= this.list[index].x  && this.xWG <= this.list[index].x + 100 && this.yWG >= this.list[index].y  && this.yWG <= this.list[index].y + 120){
+                    //     this.list.splice(index, 1);
+                    //     this.incrementmyScore();
+                    // }
                 }
                 if(this.list.length == this.amountgetter){
-                    // console.log(this.list.length);
-                    // console.log(this.amountgetter);
-                    // console.log(index);
                     this.list[index].y=this.list[index].y + 10;
                 }else {
                     this.updateList();
                 }
-                
             },
             updateList(){
                 var diff= 0;
@@ -130,7 +126,7 @@ import Init from "@/util/init.js";
                     this.list.splice(this.amountgetter, diff);
                     console.log("größer"+this.list.length);
                 }else if (this.list.length < this.amountgetter){
-                    this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-250, 100), color: this.colorList[this.counterColorListgetter] } );
+                    this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-50, 250), color: this.colorList[this.counterColorListgetter] } );
                     console.log("kleiner"+this.list.length);
                     this.$store.commit('incrementCounterColorList');
                 }
@@ -156,8 +152,25 @@ import Init from "@/util/init.js";
             },
             counterColorListgetter(){
                 return this.$store.getters.counterColorListGetter;
+            },
+            xWG_yWG() {
+                return `${this.xWG}|${this.yWG}`;
+            },
+        },
+        watch: {
+            xWG_yWG(newValue) {
+                const [newxWg, newyWg] = newValue.split('|');
+                console.log("X is "+ newxWg);
+                console.log("Y is "+ newyWg);
+                var l=0;
+                for(l; l<this.list.length; l++){
+                    if((newxWg >= (this.list[l].x))  && (newxWg <= (this.list[l].x + 100)) && (newyWg >= (this.list[l].y))  && (newyWg <= (this.list[l].y + 120))){
+                        this.list.splice(l, 1);
+                    }
+                }
             }
-        }
+        },
+
     }
 </script>
 
