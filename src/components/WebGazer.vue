@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="toggle">Toggle</button>
+        <!-- <button @click="toggle">Toggle</button> -->
     </div>
 </template>
 
@@ -9,16 +9,49 @@ import webgazer from "webgazer";
     export default {
         name: "WebGazer",
         props: {
-            off: {
-                type: Boolean,
-                default: false,
-            },
+            // off: {
+            //     type: Boolean,
+            //     default: false,
+            // },
         },
         data : function(){
             return {
                 x: 0,
                 y: 0,
             };
+        },
+        async created() {
+            // if (window && this.off){
+            //     const thiz = this;
+            //     window.applyCalmanFilter = true;
+            //     window.saveDataAccrossSessions = true;
+            //     webgazer.params.showVideoPreview = true;
+            //     await webgazer
+            //         .setRegression("ridge")
+            //          .setGazeListener(function(data) {
+            //              if (data) {
+            //                  thiz.x = data.x;
+            //                  thiz.y = data.y;
+            //                  thiz.$emit("update", { x: data.x, y: data.y });
+            //              }
+            //          })
+            //         .begin();
+            //     webgazer.showPredictionPoints(true);
+            // }
+        },
+        beforeUpdate () {
+           // console.log("off befor update  "+this.off);
+        },
+        updated () {
+            
+        },
+        beforeDestroy() {
+            // console.log("before Destroy "+this.off);
+            // window.applyKalmanFilter= false;           
+            // webgazer.params.showVideoPreview = false; 
+            // webgazer.showPredictionPoints(false); 
+            // webgazer.end();
+            // console.log("end");
         },
         computed: {
             eyetrackinggetter() {
@@ -27,6 +60,7 @@ import webgazer from "webgazer";
         },
         methods: {
             async integrat(){
+                console.log("integragte yessssss");
                 const thiz = this;
                 window.applyCalmanFilter = true;
                 window.saveDataAccrossSessions = true;
@@ -43,11 +77,25 @@ import webgazer from "webgazer";
                     .begin();
                 webgazer.showPredictionPoints(true);
             },
-            toggle(){
-                this.$store.commit('changeEyetracking',{value: !this.eyetrackinggetter});
-                if(this.eyetrackinggetter){
+            // toggle(){
+            //     this.$store.commit('changeEyetracking',{value: !this.eyetrackinggetter});
+            //     if(this.eyetrackinggetter){
+            //         this.integrat();
+            //     }else{
+            //         console.log("before Destroy "+this.off);
+            //         window.applyKalmanFilter= false;           
+            //         webgazer.params.showVideoPreview = false; 
+            //         webgazer.showPredictionPoints(false); 
+            //         webgazer.end();
+            //         console.log("end");
+            //     }
+            // },
+        },
+        watch: {
+            eyetrackinggetter(newValue) {
+                if(newValue){
                     this.integrat();
-                }else{
+                } else if(!newValue){
                     console.log("before Destroy "+this.off);
                     window.applyKalmanFilter= false;           
                     webgazer.params.showVideoPreview = false; 
@@ -55,41 +103,8 @@ import webgazer from "webgazer";
                     webgazer.end();
                     console.log("end");
                 }
-            },
-        },
-        async created() {
-           // if (window && !this.off) {
-            if (window && this.off){
-                const thiz = this;
-                window.applyCalmanFilter = true;
-                window.saveDataAccrossSessions = true;
-                webgazer.params.showVideoPreview = true;
-                await webgazer
-                    .setRegression("ridge")
-                     .setGazeListener(function(data) {
-                         if (data) {
-                             thiz.x = data.x;
-                             thiz.y = data.y;
-                             thiz.$emit("update", { x: data.x, y: data.y });
-                         }
-                     })
-                    .begin();
-                webgazer.showPredictionPoints(true);
+                
             }
-        },
-        beforeUpdate () {
-            console.log("off befor update  "+this.off);
-        },
-        updated () {
-            
-        },
-        beforeDestroy() {
-            console.log("before Destroy "+this.off);
-            window.applyKalmanFilter= false;           
-            webgazer.params.showVideoPreview = false; 
-            webgazer.showPredictionPoints(false); 
-            webgazer.end();
-            console.log("end");
         },
     }
 </script>

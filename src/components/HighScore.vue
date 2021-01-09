@@ -53,7 +53,7 @@ p{
     text-shadow: #eceaea 1px 1px 0;
 }
 button{
-    width: 20% ;
+    width: 25% ;
     height: 95px ;
     margin:50px;
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
@@ -65,11 +65,14 @@ button{
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:35px;
+	font-size:32px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
 }
 .button:hover {
 	background:linear-gradient(to bottom,  #378de5 5%, #79bbff 100%);

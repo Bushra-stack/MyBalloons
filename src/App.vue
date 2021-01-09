@@ -26,7 +26,8 @@
     </section>
 
     <section v-if= "stateMachinegetter === 'SettingSelected'">
-      <GameSettings @changeControl="changeTheControl"/>
+      <!-- <GameSettings @changeControl="changeTheControl"/> -->
+      <GameSettings />
     </section>
 
     <section  v-if= "stateMachinegetter === 'HighScore'" >

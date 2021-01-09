@@ -4,7 +4,7 @@
         class="startMenu"
     >
         <button v-if="!isSettingOn" @click="startGame" >Play Now</button>
-        <button v-if="!isSettingOn" @click="goToSetting">Setting</button>
+        <button v-if="!isSettingOn" @click="goToSetting">Settings</button>
         <button v-if="!isSettingOn" @click="showHighScore">High Score </button>
     </div>
 </template>
@@ -51,8 +51,8 @@ div{
 
 }
 button{
-    width: 20% ;
-    height: 95px ;
+    width: 30% ;
+    height: 120px ;
 	-moz-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	box-shadow:inset 0px 1px 0px 0px #f7c5c0;
@@ -71,13 +71,16 @@ button{
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:35px;
+	font-size:32px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #b23e35;
     display: block;
     margin: 55px auto 0px auto ;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
 }
 button:hover{
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e4685d), color-stop(1, #fc8d83));

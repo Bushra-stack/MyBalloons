@@ -40,8 +40,9 @@
             },
             saveSetting(){
                 var eyetracking= document.getElementById('eyetracking').checked ? true : false;
-                //this.$store.commit('changeEyetracking', eyetracking);
-                this.$emit('changeControl',eyetracking);
+                console.log("eyetracking in game settings" + eyetracking);
+                this.$store.commit('changeEyetracking', {value: eyetracking});
+                //this.$emit('changeControl',eyetracking);
                 var speedValuee = 2000 - this.speedOfInput +100 ;
                 this.$store.commit('saveSettings', {speed: speedValuee , amount: this.amountValue});
             },
@@ -78,7 +79,7 @@ label, #control{
     text-transform: capitalize;
 }
 .saveButton {
-    width: 20% ;
+    width: 25% ;
     height: 95px ;
     margin:50px;
 	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
@@ -90,11 +91,14 @@ label, #control{
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:35px;
+	font-size:32px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #86ae47;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
 }
 .saveButton:hover {
 	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
@@ -105,7 +109,7 @@ label, #control{
 	top:1px;
 }
 .backButton {
-    width: 20% ;
+    width: 25% ;
     height: 95px ;
     margin:50px;
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
@@ -117,11 +121,14 @@ label, #control{
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
-	font-size:35px;
+	font-size:32px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .backButton:hover {
 	background:linear-gradient(to bottom,  #378de5 5%, #79bbff 100%);
