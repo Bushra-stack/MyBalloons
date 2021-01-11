@@ -19,8 +19,8 @@
         <label for="color">Adapt Color</label><br>
         <input type="checkbox" id="color" name="color" value="false"/>    
         
-        <button @click="backFromSetting" class="backButton">Back</button>
-        <button @click="saveSetting" class="saveButton">Save</button>
+        <button @click="backFromSetting" id="backButton">Back</button>
+        <button @click="saveSetting" id="saveButton">Save</button>
     </div>    
 </template>
 
@@ -28,8 +28,20 @@
 //import webgazer from "webgazer";
     export default {
         name: "settings",
+        props: {
+            xWG: {
+                type: Number,
+                default: 0,
+            },
+            yWG: {
+                type: Number,
+                default: 0,
+            },  
+        },
         data() {
             return {
+                saveCounter: 0,
+                backCounter: 0,
                 speedOfInput: 200,
                 amountValue: 5,
             }
@@ -50,8 +62,48 @@
         computed: {
             speedValue(){
                 return  2000 - this.speedOfInput + 100;
-            }
+            },
+            xWG_yWG(){
+                return `${this.xWG}|${this.yWG}`;
+            },
+            eyetrackinggetter(){
+                return this.$store.getters.eyetrackingGetter;
+            },
+            btnSave(){
+                let btnSAVE = document.getElementById("saveButton");
+                return btnSAVE.getBoundingClientRect();
+            },
+            btnBack(){
+                let btnBACK = document.getElementById("backButton");
+                return btnBACK.getBoundingClientRect();
+            },
         },
+        watch: {
+            xWG_yWG(newValue) {
+                const [newxWg, newyWg] = newValue.split('|');
+                if (this.eyetrackinggetter){
+                    if(newxWg<=this.btnSave.right && newxWg>=this.btnSave.left && newyWg<=this.btnSave.bottom && newyWg>=this.btnSave.top ){
+                        this.saveCounter++;
+                        this.backCounter--;
+                    }
+                    if(newxWg<=this.btnBack.right && newxWg>=this.btnBack.left && newyWg<=this.btnBack.bottom && newyWg>=this.btnBack.top ){
+                        this.saveCounter--;
+                        this.backCounter++;
+                    }
+
+                    if(this.saveCounter >= 7){
+                        this.saveCounter=0;
+                        this.backCounter=0;
+                        this.saveSetting();
+                    }
+                    if(this.backCounter >= 7){
+                        this.saveCounter=0;
+                        this.backCounter=0;
+                        this.backFromSetting();
+                    }
+                }
+            }
+        }
     }
 </script>
 
@@ -78,10 +130,9 @@ label, #control{
     font-weight: 700;
     text-transform: capitalize;
 }
-.saveButton {
+#saveButton {
     width: 25% ;
-    height: 95px ;
-    margin:50px;
+    height: 85px ;
 	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
 	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
 	background-color:#b8e356;
@@ -93,25 +144,25 @@ label, #control{
 	font-family:Arial;
 	font-size:32px;
 	font-weight:bold;
-	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #86ae47;
+    padding:10px 10px 10px 10px;
+    margin: 20px 30px 40px 30px ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;
 }
-.saveButton:hover {
+#saveButton:hover {
 	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
 	background-color:#a5cc52;
 }
-.saveButton:active {
+#saveButton:active {
 	position:relative;
 	top:1px;
 }
-.backButton {
+#backButton {
     width: 25% ;
-    height: 95px ;
-    margin:50px;
+    height: 85px ;
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
 	background:linear-gradient(to bottom,  #79bbff 5%, #378de5 100%);
 	background-color:#79bbff;;
@@ -123,18 +174,19 @@ label, #control{
 	font-family:Arial;
 	font-size:32px;
 	font-weight:bold;
-	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
+    padding:10px 10px 10px 10px;
+    margin: 20px 30px 40px 30px ;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; 
     white-space: nowrap;
 }
-.backButton:hover {
+#backButton:hover {
 	background:linear-gradient(to bottom,  #378de5 5%, #79bbff 100%);
 	background-color:#378de5;
 }
-.backButton:active {
+#backButton:active {
 	position:relative;
 	top:1px;
 }   

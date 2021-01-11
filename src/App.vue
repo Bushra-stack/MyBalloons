@@ -18,20 +18,18 @@
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
     <!-- <WebGazer v-if="off" @update="onUpdate" :off="off"/> -->
 
-    <StartMenu v-if= "stateMachinegetter === 'StartMenu'"
-      @gameStarted="startTheGameBoolean=$event"
-    />
+    <StartMenu v-if= "stateMachinegetter === 'StartMenu'" :xWG="x_wg" :yWG="y_wg" />
     <section v-if= "stateMachinegetter === 'GameStarted' || stateMachinegetter === 'GamePaused'" >
       <Game :xWG="x_wg" :yWG="y_wg"/>
     </section>
 
     <section v-if= "stateMachinegetter === 'SettingSelected'">
       <!-- <GameSettings @changeControl="changeTheControl"/> -->
-      <GameSettings />
+      <GameSettings :xWG="x_wg" :yWG="y_wg"/>
     </section>
 
-    <section  v-if= "stateMachinegetter === 'HighScore'" >
-      <HighScore/>
+    <section  v-if= "stateMachinegetter === 'HighScore'">
+      <HighScore :xWG="x_wg" :yWG="y_wg"/>
     </section>
 
   </div>
@@ -78,13 +76,7 @@ export default {
       return this.$store.getters.eyetrackingGetter; 
     }
   },
-  // watch: {
-  //   state(newValue, oldValue) {
-  //     if(newValue === "stop"){
-  //       this.list
-  //     }
-  //   }
-  //},
+
   mounted () {
   },
 };

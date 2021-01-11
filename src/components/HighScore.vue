@@ -5,33 +5,67 @@
         <h2 >Highest Score:</h2>
         <p>{{highestScoreFromStorage}}</p>
 
-        <button @click="highScore">Hide Score</button>
+        <button id="Hide_Score" @click="hideScore">Hide Score</button>
     </div>
 </template>
 
 <script>
     export default {
         name: "HighScore",
+        props: {
+            xWG: {
+                type: Number,
+                default: 0,
+            },
+            yWG: {
+                type: Number,
+                default: 0,
+            },
+        },
         data() {
             return {
+                hideCounter: 0,
                 highestScore: JSON.parse(window.localStorage.getItem('High Score')),
             }
         },
         methods: {
-            highScore() {
+            hideScore() {
                 this.$store.commit('changeStateMachine', "StartMenu");
             }
         },
         computed: {
-            scoregetter() {
+            scoregetter(){
                 return this.$store.getters.scoreGetter;
             },
             highestScoreFromStorage(){
                 return this.highestScore;
 
-            }
-            
+            },
+            xWG_yWG(){
+                return `${this.xWG}|${this.yWG}`;
+            },
+            eyetrackinggetter(){
+                return this.$store.getters.eyetrackingGetter;
+            },
+            btnHide(){
+                let btnHIDE = document.getElementById("Hide_Score");
+                return btnHIDE.getBoundingClientRect();
+            },
         },
+        watch: {
+            xWG_yWG(newValue) {
+                const [newxWg, newyWg] = newValue.split('|');
+                if (this.eyetrackinggetter){
+                    if(newxWg<=this.btnHide.right && newxWg>=this.btnHide.left && newyWg<=this.btnHide.bottom && newyWg>=this.btnHide.top ){
+                        this.hideCounter++;
+                    }
+                    if(this.hideCounter>=7){
+                        this.hideCounter=0;
+                        this.hideScore();
+                    }
+                }
+            }
+        }
     }
 </script>
 
@@ -52,10 +86,9 @@ p{
     color: #21963a;
     text-shadow: #eceaea 1px 1px 0;
 }
-button{
-    width: 25% ;
-    height: 95px ;
-    margin:50px;
+button {
+    width: 275px;
+    height: 95px ; 
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
 	background:linear-gradient(to bottom,  #79bbff 5%, #378de5 100%);
 	background-color:#79bbff;;
@@ -67,20 +100,23 @@ button{
 	font-family:Arial;
 	font-size:32px;
 	font-weight:bold;
-	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
+    padding:10px 10px 10px 10px;
+    margin: 55px auto 55px auto ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;
 }
-.button:hover {
+button:hover {
 	background:linear-gradient(to bottom,  #378de5 5%, #79bbff 100%);
 	background-color:#378de5;
 }
-.button:active {
+button:active {
 	position:relative;
 	top:1px;
-}
+}   
 
 </style>
+   
+     

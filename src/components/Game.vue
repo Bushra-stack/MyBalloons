@@ -41,6 +41,9 @@ import Init from "@/util/init.js";
         },
         data() {
             return {
+                pauseCounter: 0,
+                continueCounter: 0,
+                stopCounter: 0,
                 state: "stop", //play. pause
                 list: [
                     { x: 0, y: 0, color: "red" },
@@ -51,11 +54,10 @@ import Init from "@/util/init.js";
             };
         },
         created () {
-            console.log("Color counter "+this.counterColorListgetter);
             if((JSON.parse(window.localStorage.getItem('High Score'))) == null){
                 window.localStorage.setItem('High Score', this.scoregetter);
             }else {
-                console.log("high score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
+               // console.log("high score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
                 this.highestScore = JSON.parse(window.localStorage.getItem('High Score'));
             }
             console.log(this.amountgetter);
@@ -64,7 +66,6 @@ import Init from "@/util/init.js";
                 this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth -100), y: 0, color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
             }
-            console.log("Color counter "+this.counterColorListgetter);
         },
         methods: {
             pauseTheGame(){
@@ -81,7 +82,6 @@ import Init from "@/util/init.js";
             },
             incrementmyScore(){
                 this.$store.commit('incrementScore');
-                console.log("scoregetter is: "+ this.scoregetter);
                 if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
                     window.localStorage.setItem('High Score', this.scoregetter);
                     alert("Yahoo! You reached an new high score!!");
@@ -119,15 +119,9 @@ import Init from "@/util/init.js";
                 }
             },
             updateList(){
-                var diff= 0;
-                if(this.list.length > this.amountgetter){
-                    //delete vue.delete??
-                    diff = this.list.length -this.amountgetter
-                    this.list.splice(this.amountgetter, diff);
-                    console.log("größer"+this.list.length);
-                }else if (this.list.length < this.amountgetter){
+                if (this.list.length < this.amountgetter){
                     this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-50, 250), color: this.colorList[this.counterColorListgetter] } );
-                    console.log("kleiner"+this.list.length);
+                    //console.log("kleiner"+this.list.length);
                     this.$store.commit('incrementCounterColorList');
                 }
             },
@@ -147,26 +141,68 @@ import Init from "@/util/init.js";
             scoregetter(){
                 return this.$store.getters.scoreGetter;
             },
-            eyetrackinggetter(){
-                return this.$store.getters.eyetrackingGetter;
-            },
             counterColorListgetter(){
                 return this.$store.getters.counterColorListGetter;
             },
             xWG_yWG() {
                 return `${this.xWG}|${this.yWG}`;
             },
+            eyetrackinggetter(){
+                return this.$store.getters.eyetrackingGetter;
+            },
+            btnPause(){
+                let btnPAUSE = document.getElementById("pauseButton");
+                return btnPAUSE.getBoundingClientRect();
+            },
+            btnContinue(){
+                let btnCONTINUE= document.getElementById("continueButton");
+                return btnCONTINUE.getBoundingClientRect();
+            },
+            btnStop(){
+                let btnSTOP = document.getElementById("stopButton");
+                return btnSTOP.getBoundingClientRect();
+            },
         },
         watch: {
             xWG_yWG(newValue) {
-                const [newxWg, newyWg] = newValue.split('|');
-                console.log("X is "+ newxWg);
-                console.log("Y is "+ newyWg);
-                var l=0;
-                for(l; l<this.list.length; l++){
-                    if((newxWg >= (this.list[l].x))  && (newxWg <= (this.list[l].x + 100)) && (newyWg >= (this.list[l].y))  && (newyWg <= (this.list[l].y + 120))){
-                        this.list.splice(l, 1);
-                    }
+                console.log("active in watch uhhu")
+                const [newxWg, newyWg] = newValue.split('|');          
+                if (this.eyetrackinggetter){
+                    if(this.stateMachinegetter === 'GameStarted'){
+                        var l=0;
+                        for(l; l<this.list.length; l++){
+                            if((newxWg >= (this.list[l].x))  && (newxWg <= (this.list[l].x + 100)) && (newyWg >= (this.list[l].y))  && (newyWg <= (this.list[l].y + 120))){
+                                this.list.splice(l, 1);
+                                this.incrementmyScore();
+                            }
+                        }
+                        if(newxWg<=this.btnPause.right && newxWg>=this.btnPause.left && newyWg<=this.btnPause.bottom && newyWg>=this.btnPause.top ){
+                            this.pauseCounter++;
+                        }
+                        if(this.pauseCounter >= 7 ){
+                            this.pauseCounter=0;
+                            this.pauseTheGame();
+                        }
+                    }else if(this.stateMachinegetter === 'GamePaused'){
+                        if(newxWg<=this.btnContinue.right && newxWg>=this.btnContinue.left && newyWg<=this.btnContinue.bottom && newyWg>=this.btnContinue.top ){
+                            this.continueCounter++;
+                            this.stopCounter--;
+                        }
+                        if(newxWg<=this.btnStop.right && newxWg>=this.btnStop.left && newyWg<=this.btnStop.bottom && newyWg>=this.btnStop.top ){
+                            this.continueCounter--;
+                            this.stopCounter++;
+                        }
+                        if(this.continueCounter >=7){
+                            this.continueCounter=0;
+                            this.stopCounter=0;
+                            this.continuePlaying();
+                        }
+                        if(this.stopCounter >=7){
+                            this.continueCounter=0;
+                            this.stopCounter=0;
+                            this.stopTheGame();
+                        }
+                    } 
                 }
             }
         },
@@ -176,9 +212,8 @@ import Init from "@/util/init.js";
 
 <style scoped>
 #pauseButton, #stopButton, #continueButton{
-    width: 20% ;
+    width: 30% ;
     height: 95px ;
-    margin:50px;
 	box-shadow:inset 0px 1px 0px 0px #f5978e;
 	background:linear-gradient(to bottom, #f24537 5%, #c62d1f 100%);
 	background-color:#f24537;
@@ -190,16 +225,25 @@ import Init from "@/util/init.js";
 	font-family:Arial;
 	font-size:35px;
 	font-weight:bold;
-	padding:6px 24px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #810e05;
+    padding:10px 10px 10px 10px;
+    margin: 55px 30px 55px 30px ;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
 }
 #pauseButton{
+    width: 210px ;
+    height: 65px ;
+    font-size:30px;
     box-shadow:inset 0px 1px 0px 0px #eece8a;
 	background:linear-gradient(to bottom, #e7bb5c 5%, #d49100 100%);
 	background-color:#F5AB07;
 	border:1px solid #eec303;
-    margin: 0%;
+    padding:10px 3px 10px 3px;
+    margin: 5px auto 0px auto ;
+
 }
 #continueButton{
 	box-shadow:inset 0px 1px 0px 0px #a4e271;
@@ -224,11 +268,10 @@ import Init from "@/util/init.js";
 	top:1px;
 }
 #game-score{
-    font-size: 125%;
     color: #F5AB07;
     text-shadow:5px 2px 1px #eef3d9;
     font-family: Georgia, serif;
-    font-size: 35px;
+    font-size: 30px;
     letter-spacing: 1.4px;
     word-spacing: 0px;
     font-weight: 700;
