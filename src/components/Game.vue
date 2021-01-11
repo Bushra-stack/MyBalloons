@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if= "stateMachinegetter === 'GameStarted'">
-            <button id="pauseButton" @click="pauseTheGame">Pause</button>
+            <button id="pauseButton" @click="pauseTheGame" >Pause</button>
             <Balloon
                 v-for="(item, index) of list"
                 :key="index"
@@ -12,6 +12,7 @@
                 @randomY="getRandomY(index)"
                 @balloon-click="onBalloonClick"
                 @updatePos="updateY(index)"
+                
             /> 
             <p id="game-score">Current Score {{scoregetter}}</p>
         </div>
@@ -51,6 +52,7 @@ import Init from "@/util/init.js";
                 colorList: Init.colorList,
                 newY: true,
                 windowWidth: window.innerWidth,
+                windowHeight: window.innerHeight,
             };
         },
         created () {
@@ -63,9 +65,10 @@ import Init from "@/util/init.js";
             //console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
-                this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
+                this.list.splice(this.list.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
             }
+            window.addEventListener('resize', this.resizeXY);
         },
         methods: {
             pauseTheGame(){
@@ -105,25 +108,20 @@ import Init from "@/util/init.js";
                 this.incrementmyScore();
             },
             updateY(index){
-                if(this.eyetrackinggetter){
-                    // if(this.xWG >= this.list[index].x  && this.xWG <= this.list[index].x + 100 && this.yWG >= this.list[index].y  && this.yWG <= this.list[index].y + 120){
-                    //     this.list.splice(index, 1);
-                    //     this.incrementmyScore();
-                    // }
-                }
                 if(this.list.length == this.amountgetter){
                     if(this.list[index].y > window.innerHeight + 125){
                         this.list[index].y=Init.random(-50, 10);
                     }else{
                         this.list[index].y=this.list[index].y + 10;
                     }
+
                 }else {
                     this.updateList();
                 }
             },
             updateList(){
                 if (this.list.length < this.amountgetter){
-                    this.list.splice(this.list.length, 0, { x: Init.random(10,this.windowWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: this.colorList[this.counterColorListgetter] } );
+                    this.list.splice(this.list.length, 0, { x: Init.random(10,window.innerWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: this.colorList[this.counterColorListgetter] } );
                     this.$store.commit('incrementCounterColorList');
                 }
             },
@@ -132,6 +130,18 @@ import Init from "@/util/init.js";
                     this.list[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
                 }
             },
+            resizeXY(){
+                console.log("resize");
+                var diffWidthInPercentage = window.innerWidth / this.windowWidth;
+                this.windowWidth= window.innerWidth;
+                var diffHeightInPercentage = window.innerHeight / this.windowHeight;
+                this.windowHeight=  window.innerHeight;
+                var j=0;
+                for(j; j<this.list.length ; j++){
+                    this.list[j].x = this.list[j].x * diffWidthInPercentage;
+                    this.list[j].y = this.list[j].y * diffHeightInPercentage;
+                }
+            }
         },
         computed: {
             stateMachinegetter(){

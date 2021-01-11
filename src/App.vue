@@ -65,7 +65,7 @@ export default {
     changeTheControl(value){
       this.off = value;
       console.log('changeTheControl ' + value);
-    }
+    },
   },
   
   computed: {
