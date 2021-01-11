@@ -4,13 +4,14 @@
     class="balloon"
     v-bind:id="index"
     v-bind:style="{
+    color: color,
     background: color,
     left: `${x}px`,
     bottom: `${y}px`,
     }"
     @click="$emit('balloon-click', index)"
   >
-    {{ x }}/{{ y }}
+    <!-- {{ x }}/{{ y }} -->
   </div>
 </template>
 
@@ -85,10 +86,11 @@ div {
 .balloon:before {
   content:"▲";
   font-size:20px;
-  color:hsl(215,30%,50%);
+  color:currentColor; 
+  opacity: 60%;
   display:block;
   text-align:center;
-  width:100%;
+  width:110%;
   position:absolute;
   bottom:-12px; 
   z-index:-100;

@@ -63,7 +63,7 @@ import Init from "@/util/init.js";
             //console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
-                this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth -100), y: 0, color: this.colorList[this.counterColorListgetter] });
+                this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
             }
         },
@@ -112,20 +112,24 @@ import Init from "@/util/init.js";
                     // }
                 }
                 if(this.list.length == this.amountgetter){
-                    this.list[index].y=this.list[index].y + 10;
+                    if(this.list[index].y > window.innerHeight + 125){
+                        this.list[index].y=Init.random(-50, 10);
+                    }else{
+                        this.list[index].y=this.list[index].y + 10;
+                    }
                 }else {
                     this.updateList();
                 }
             },
             updateList(){
                 if (this.list.length < this.amountgetter){
-                    this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-50, 250), color: this.colorList[this.counterColorListgetter] } );
+                    this.list.splice(this.list.length, 0, { x: Init.random(10,this.windowWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: this.colorList[this.counterColorListgetter] } );
                     this.$store.commit('incrementCounterColorList');
                 }
             },
             getRandomY(index){
                 if(this.newY){
-                    this.list[index].y= Init.random(-50, 350);// (min,max)
+                    this.list[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
                 }
             },
         },
@@ -163,7 +167,6 @@ import Init from "@/util/init.js";
         },
         watch: {
             xWG_yWG(newValue) {
-        
                 const [newxWg, newyWg] = newValue.split('|');          
                 if (this.eyetrackinggetter){
                     if(this.stateMachinegetter === 'GameStarted'){
