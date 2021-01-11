@@ -107,9 +107,6 @@
                         this.showHighScore();
                     }
                 }
-                
-
-                
             }
         },
     }

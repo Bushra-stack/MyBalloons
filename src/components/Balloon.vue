@@ -2,6 +2,7 @@
   <div
     ref="balloon"
     class="balloon"
+    v-bind:id="index"
     v-bind:style="{
     background: color,
     left: `${x}px`,
@@ -50,7 +51,6 @@ export default {
         this.$refs.balloon.style.transform = "rotate(-5deg)"; 
       }
       this.clockwise=!this.clockwise;
-      //console.log("update method");
     },
   },
   computed: {
@@ -60,14 +60,12 @@ export default {
   },
   created(index) {
       this.$emit('randomY',index);
-      console.log("speedgetter "+ this.speedgetter);
+      //console.log("speedgetter "+ this.speedgetter);
       this.intervalID = window.setInterval(this.update, this.speedgetter);    
   },
   beforeUpdate () {
-    //console.log("before Update Life Cycle");
   },
   updated () {
-   // console.log("updated Life Cycle");
   },
   beforeDestroy() {
     window.clearInterval(this.intervalID);

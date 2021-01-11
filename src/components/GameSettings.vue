@@ -8,7 +8,7 @@
         <label for="amount">Amount</label>
         <p>{{amountValue}}</p>
         <input  v-model="amountValue" type="range" id="amount" name="amount" 
-         min="0" max="30" value="10" step="1">
+         min="1" max="30" value="10" step="1">
         
         <p id="control">Control with:</p>
         <label class="control" for="mouse">Mouse</label>

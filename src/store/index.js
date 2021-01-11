@@ -61,7 +61,6 @@ export default new Vuex.Store({
       }else{
         state.counterColorList++;
       }
-      console.log("the counter"+ state.counterColorList);
     },
   },
   actions: {

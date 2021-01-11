@@ -57,10 +57,10 @@ import Init from "@/util/init.js";
             if((JSON.parse(window.localStorage.getItem('High Score'))) == null){
                 window.localStorage.setItem('High Score', this.scoregetter);
             }else {
-               // console.log("high score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
+               // console.log("High score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
                 this.highestScore = JSON.parse(window.localStorage.getItem('High Score'));
             }
-            console.log(this.amountgetter);
+            //console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
                 this.list.splice(this.list.length, 0 ,{ x: Init.random(50,this.windowWidth -100), y: 0, color: this.colorList[this.counterColorListgetter] });
@@ -103,7 +103,6 @@ import Init from "@/util/init.js";
             onBalloonClick(index) {
                 this.list.splice(index, 1);
                 this.incrementmyScore();
-                //console.log(this.list);
             },
             updateY(index){
                 if(this.eyetrackinggetter){
@@ -121,7 +120,6 @@ import Init from "@/util/init.js";
             updateList(){
                 if (this.list.length < this.amountgetter){
                     this.list.splice(this.list.length, 0, { x: Init.random(50,this.windowWidth), y: Init.random(-50, 250), color: this.colorList[this.counterColorListgetter] } );
-                    //console.log("kleiner"+this.list.length);
                     this.$store.commit('incrementCounterColorList');
                 }
             },
@@ -165,13 +163,20 @@ import Init from "@/util/init.js";
         },
         watch: {
             xWG_yWG(newValue) {
-                console.log("active in watch uhhu")
+        
                 const [newxWg, newyWg] = newValue.split('|');          
                 if (this.eyetrackinggetter){
                     if(this.stateMachinegetter === 'GameStarted'){
                         var l=0;
+                        let currentBalloon = null;
+                        let currBalloon= null;
                         for(l; l<this.list.length; l++){
-                            if((newxWg >= (this.list[l].x))  && (newxWg <= (this.list[l].x + 100)) && (newyWg >= (this.list[l].y))  && (newyWg <= (this.list[l].y + 120))){
+                            //console.log("xWg: "+ newxWg + " | yWg: " + newyWg);
+                            //console.log("x: " + this.list[l].x + " | y: " + this.list[l].y);
+                            currentBalloon = document.getElementById(`${l}`);
+                            currBalloon= currentBalloon.getBoundingClientRect();
+                            if(newxWg<=currBalloon.right && newxWg>=currBalloon.left && newyWg<=currBalloon.bottom && newyWg>=currBalloon.top){
+                                console.log(this.list[l].color);
                                 this.list.splice(l, 1);
                                 this.incrementmyScore();
                             }

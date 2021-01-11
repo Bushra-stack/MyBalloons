@@ -40,18 +40,10 @@ import webgazer from "webgazer";
             // }
         },
         beforeUpdate () {
-           // console.log("off befor update  "+this.off);
         },
         updated () {
-            
         },
         beforeDestroy() {
-            // console.log("before Destroy "+this.off);
-            // window.applyKalmanFilter= false;           
-            // webgazer.params.showVideoPreview = false; 
-            // webgazer.showPredictionPoints(false); 
-            // webgazer.end();
-            // console.log("end");
         },
         computed: {
             eyetrackinggetter() {
@@ -60,7 +52,6 @@ import webgazer from "webgazer";
         },
         methods: {
             async integrat(){
-                console.log("integragte yessssss");
                 const thiz = this;
                 window.applyCalmanFilter = true;
                 window.saveDataAccrossSessions = true;
@@ -96,12 +87,11 @@ import webgazer from "webgazer";
                 if(newValue){
                     this.integrat();
                 } else if(!newValue){
-                    console.log("before Destroy "+this.off);
                     window.applyKalmanFilter= false;           
                     webgazer.params.showVideoPreview = false; 
                     webgazer.showPredictionPoints(false); 
                     webgazer.end();
-                    console.log("end");
+                    console.log("End of eyetracking");
                 }
                 
             }
