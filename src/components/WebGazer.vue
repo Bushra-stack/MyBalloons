@@ -90,6 +90,8 @@ import webgazer from "webgazer";
                     window.applyKalmanFilter= false;           
                     webgazer.params.showVideoPreview = false; 
                     webgazer.showPredictionPoints(false); 
+                    webgazer.showFaceOverlay(false);
+                    webgazer.showFaceFeedbackBox(false);
                     webgazer.end();
                     console.log("End of eyetracking");
                 }

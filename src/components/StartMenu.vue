@@ -3,7 +3,7 @@
         refs="startMenu"
         class="startMenu"
     >
-        <button id="Play_Now" v-if="!isSettingOn" @click="startGame" >Play Now</button>
+        <button id="Play_Now" v-if="!isSettingOn" @click="startGame">Play Now</button>
         <button id="Settings" v-if="!isSettingOn" @click="goToSettings">Settings</button>
         <button id="High_Score" v-if="!isSettingOn" @click="showHighScore">High Score</button>
     </div>
