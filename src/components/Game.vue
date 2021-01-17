@@ -24,9 +24,11 @@
 <script>
 import Balloon from "./Balloon.vue";
 import Init from "@/util/init.js";
+import Vue from 'vue';
+import VueConfetti from "vue-confetti";
 //import Confetti from "@/util/confetti.js-master/confetti.js";
 //import Party from "@/util/party-js-master/party.js";
-
+ Vue.use(VueConfetti)
     export default {
         name: "Game",
         components: {Balloon},
@@ -47,7 +49,7 @@ import Init from "@/util/init.js";
                 stopCounter: 0,
                 state: "stop", //play. pause
                 list: [
-                    { x: 0, y: 0, color: "red" },
+                    { x: 0, y: 0, color: "#332288" }, //lila
                 ],
                 colorList: Init.colorList,
                 newY: true,
@@ -62,12 +64,20 @@ import Init from "@/util/init.js";
                // console.log("High score vorhanden "+ JSON.parse(window.localStorage.getItem('High Score')));
                 this.highestScore = JSON.parse(window.localStorage.getItem('High Score'));
             }
+            if(this.accessibleColorgetter){
+                this.$store.commit('incrementCounterColorList');
+                this.colorList= Init.accessibleColorList;
+                console.log("accessible colorlist");
+            }else{
+                this.colorList= Init.colorList;
+                console.log("still colorlist");
+            }
             //console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
                 this.list.splice(this.list.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
-            }
+            }  
             window.addEventListener('resize', this.resizeXY);
         },
         methods: {
@@ -88,6 +98,8 @@ import Init from "@/util/init.js";
                 if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
                     window.localStorage.setItem('High Score', this.scoregetter);
                     alert("Yahoo! You reached an new high score!!");
+                   // VueConfetti.start();
+                   this.$confetti.start();
                     //Confetti.startConfetti();
                     // Party.screen({ 
                     //     count: 500 * (window.innerWidth / 1980),
@@ -162,6 +174,9 @@ import Init from "@/util/init.js";
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            accessibleColorgetter(){
+                return this.$store.getters.accessibleColorGetter;
+            },
             btnPause(){
                 let btnPAUSE = document.getElementById("pauseButton");
                 return btnPAUSE.getBoundingClientRect();
@@ -222,9 +237,18 @@ import Init from "@/util/init.js";
                         }
                     } 
                 }
+            },
+            accessibleColorgetter(newValue){
+                console.log(newValue);
+                if(newValue){
+                     this.colorList= Init.accessibleColorList;
+                    console.log("accessible colorlist");
+                }else{
+                    this.colorList= Init.colorList;
+                    console.log("still colorlist");
+                }
             }
         },
-
     }
 </script>
 
@@ -233,7 +257,7 @@ import Init from "@/util/init.js";
     width: 30% ;
     height: 95px ;
 	box-shadow:inset 0px 1px 0px 0px #f5978e;
-	background:linear-gradient(to bottom, #f24537 5%, #c62d1f 100%);
+	background:linear-gradient(to bottom, #eb2d1c 5%, #980728 100%);
 	background-color:#f24537;
 	border-radius:6px;
 	border:1px solid #d02718;
@@ -256,8 +280,9 @@ import Init from "@/util/init.js";
     height: 65px ;
     font-size:30px;
     box-shadow:inset 0px 1px 0px 0px #eece8a;
-	background:linear-gradient(to bottom, #e7bb5c 5%, #d49100 100%);
-	background-color:#F5AB07;
+	background:linear-gradient(to bottom, #eccb0e 5%,  #9c5015  100%);
+	background-color:#9B6236;
+    color: #F4F5DF;
 	border:1px solid #eec303;
     padding:10px 3px 10px 3px;
     margin: 5px auto 0px auto ;
@@ -265,7 +290,7 @@ import Init from "@/util/init.js";
 }
 #continueButton{
 	box-shadow:inset 0px 1px 0px 0px #a4e271;
-	background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+	background:linear-gradient(to bottom, #98d40a  5%,  #096705 100%);
 	background-color:#89c403;
 	border:1px solid #74b807;
 }
@@ -278,7 +303,7 @@ import Init from "@/util/init.js";
 	background-color:#77a809;
 }
 #pauseButton:hover{
-    background:linear-gradient(to bottom, #f5c763 5%, rgb(247, 222, 6) 100%);
+    background:linear-gradient(to bottom,  #9c5015 5%, #eccb0e  100%);
 	background-color:#f5c04f;
 }
 #stopButton:active {
@@ -286,7 +311,7 @@ import Init from "@/util/init.js";
 	top:1px;
 }
 #game-score{
-    color: #F5AB07;
+    color: #825a02;
     text-shadow:5px 2px 1px #eef3d9;
     font-family: Georgia, serif;
     font-size: 30px;

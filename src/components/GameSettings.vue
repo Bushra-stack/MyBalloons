@@ -25,7 +25,6 @@
 </template>
 
 <script>
-//import webgazer from "webgazer";
     export default {
         name: "settings",
         props: {
@@ -54,9 +53,10 @@
                 var eyetracking= document.getElementById('eyetracking').checked ? true : false;
                 console.log("eyetracking in game settings" + eyetracking);
                 this.$store.commit('changeEyetracking', {value: eyetracking});
-                //this.$emit('changeControl',eyetracking);
                 var speedValuee = 2000 - this.speedOfInput +100 ;
                 this.$store.commit('saveSettings', {speed: speedValuee , amount: this.amountValue});
+                var accessibleColor = document.getElementById('color').checked ? true : false;
+                this.$store.commit('changeColorList', {value: accessibleColor});
             },
         },
         computed: {
@@ -77,6 +77,7 @@
                 let btnBACK = document.getElementById("backButton");
                 return btnBACK.getBoundingClientRect();
             },
+
         },
         watch: {
             xWG_yWG(newValue) {
@@ -102,7 +103,7 @@
                         this.backFromSetting();
                     }
                 }
-            }
+            },
         }
     }
 </script>
@@ -110,9 +111,10 @@
 <style scoped>
 
 p{
-    font-size: 125%;
-    color: #21963a;
-    text-shadow: #eceaea 1px 1px 0;
+    font-size: 140%;
+    color: #0e8328;
+    font-weight: bold;
+    text-shadow: #eceaea 2px 1px 0px;
 }
 input{
     display: block;
@@ -121,8 +123,8 @@ input{
 }
 label, #control{
     font-size: 125%;
-    color: #1e62d0;
-    text-shadow:5px 2px 1px #8CCE9A;
+    color: #164faa;
+    text-shadow: #eceaea 2px 2px 1px;
     font-family: Georgia, serif;
     font-size: 35px;
     letter-spacing: 1.4px;
@@ -134,7 +136,7 @@ label, #control{
     width: 25% ;
     height: 85px ;
 	box-shadow:inset 0px 1px 0px 0px #d9fbbe;
-	background:linear-gradient(to bottom, #b8e356 5%, #a5cc52 100%);
+	background:linear-gradient(to bottom,  #b8e356 5%, #237c23 100%);
 	background-color:#b8e356;
 	border-radius:6px;
 	border:1px solid #83c41a;
@@ -153,7 +155,7 @@ label, #control{
     white-space: nowrap;
 }
 #saveButton:hover {
-	background:linear-gradient(to bottom, #a5cc52 5%, #b8e356 100%);
+	background:linear-gradient(to bottom, #237c23  5%, #b8e356 100%);
 	background-color:#a5cc52;
 }
 #saveButton:active {
@@ -164,7 +166,7 @@ label, #control{
     width: 25% ;
     height: 85px ;
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
-	background:linear-gradient(to bottom,  #79bbff 5%, #378de5 100%);
+	background:linear-gradient(to bottom,  #79bbff 5%, #014870 100%);
 	background-color:#79bbff;;
 	border-radius:6px;
 	border:1px solid #84bbf3;
@@ -202,12 +204,13 @@ label, #control{
     word-spacing: unset;
     font-weight: unset;
     text-transform: unset;
-    font-size: 125%;
-    color: #21963a;
+    font-size: 140%;
+    font-weight: bold;
+    color: #0e8328;
     text-shadow: #eceaea 1px 1px 0;
     height: 15px;
-        width: 15px;
-        vertical-align: middle;
+    width: 15px;
+    vertical-align: middle;
 }
 .control input{
      height: 15px;

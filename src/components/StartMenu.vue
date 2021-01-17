@@ -115,7 +115,6 @@
 <style scoped>
 div{
 
-
 }
 button{
     width: 40%;
@@ -124,17 +123,16 @@ button{
 	-webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fc8d83), color-stop(1, #e4685d));
-	background:-moz-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
-	background:-webkit-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
-	background:-o-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
-	background:-ms-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
-	background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+	background:-moz-linear-gradient(top, #d1473a   20%, #77290a 100%);
+	background:-webkit-linear-gradient(top, #d1473a   20%, #77290a 100%);
+	background:-o-linear-gradient (top, #d1473a   20%, #77290a 100%);
+	background:-ms-linear-gradient(top, #d1473a   20%, #77290a 100%);
+	background:linear-gradient(to bottom, #d1473a 20%, #77290a  100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fc8d83', endColorstr='#e4685d',GradientType=0);
-	background-color:#fc8d83;
 	-webkit-border-radius:6px;
 	-moz-border-radius:6px;
 	border-radius:6px;
-	border:1px solid #d83526;
+	border:1px solid #d331b0;
 	cursor:pointer;
 	color:#ffffff;
 	font-family:Arial;
@@ -151,11 +149,11 @@ button{
 }
 button:hover{
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e4685d), color-stop(1, #fc8d83));
-    background:-moz-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
-    background:-webkit-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
-    background:-o-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
-    background:-ms-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
-    background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+    background:-moz-linear-gradient(top, #e4685d 5%, #ca5348 100%);
+    background:-webkit-linear-gradient(top, #e4685d 5%, #ca5348 100%);
+    background:-o-linear-gradient(top, #e4685d 5%, #ca5348 100%);
+    background:-ms-linear-gradient(top, #e4685d 5%, #ca5348 100%);
+    background:linear-gradient(to bottom, #e4685d 5%, #ca5348 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4685d', endColorstr='#fc8d83',GradientType=0);
     background-color:#e4685d;
 }

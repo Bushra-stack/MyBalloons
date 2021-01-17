@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h2>Current Score:</h2>
-        <p>{{scoregetter}}</p>
+        <!-- <h2>Current Score:</h2>
+        <p>{{scoregetter}}</p> -->
         <h2 >Highest Score:</h2>
         <p>{{highestScoreFromStorage}}</p>
 
@@ -34,12 +34,11 @@
             }
         },
         computed: {
-            scoregetter(){
-                return this.$store.getters.scoreGetter;
-            },
+            // scoregetter(){
+            //     return this.$store.getters.scoreGetter;
+            // },
             highestScoreFromStorage(){
                 return this.highestScore;
-
             },
             xWG_yWG(){
                 return `${this.xWG}|${this.yWG}`;
@@ -72,8 +71,8 @@
 <style scoped>
 h2{
     font-size: 125%;
-    color: #1e62d0;
-    text-shadow:5px 2px 1px #8CCE9A;
+    color: #164faa;
+    text-shadow: #eceaea 2px 2px 1px;
     font-family: Georgia, serif;
     font-size: 35px;
     letter-spacing: 1.4px;
@@ -83,14 +82,16 @@ h2{
 }
 p{
     font-size: 200%;
-    color: #21963a;
+    color: #0e8328;
     text-shadow: #eceaea 1px 1px 0;
+    font-weight: bold;
 }
 button {
     width: 275px;
     height: 95px ; 
 	box-shadow:inset 0px 1px 0px 0px #fce2c1;
-	background:linear-gradient(to bottom,  #79bbff 5%, #378de5 100%);
+    background:linear-gradient(to bottom,  #79bbff 5%, #00649C 100%);
+	background-color:#79bbff;;
 	background-color:#79bbff;;
 	border-radius:6px;
 	border:1px solid #84bbf3;

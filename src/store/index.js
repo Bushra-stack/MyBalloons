@@ -12,6 +12,7 @@ export default new Vuex.Store({
     stateMachine: "StartMenu",
     eyetracking: false,
     counterColorList: 0,
+    accessibleColor: false,
   },
   getters: {
     stateMachineGetter: state => {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     counterColorListGetter: state => {
       return state.counterColorList;
+    },
+    accessibleColorGetter: state => {
+      return state.accessibleColor;
     },
 
   },
@@ -56,11 +60,26 @@ export default new Vuex.Store({
       console.log(`Eyetracking is ${state.eyetracking}`);
     },
     incrementCounterColorList(state){
-      if(state.counterColorList >= 29){
-        state.counterColorList=0;
+      if(state.accessibleColor){
+        if(state.counterColorList>=7){
+          state.counterColorList = 0 ;
+          console.log(" accessibleColor counterColorList:  "+ this.counterColorList);
+        }else{ 
+          state.counterColorList++;
+          console.log("counterColorList:  "+ this.counterColorList);
+        }
       }else{
-        state.counterColorList++;
+        if(state.counterColorList >= 29){
+          state.counterColorList=0;
+        }else{
+          state.counterColorList++;
+        }
       }
+      
+    },
+    changeColorList(state, payload){
+      state.accessibleColor=payload.value;
+      console.log(`AccessibleColorList is ${state.accessibleColor}`)
     },
   },
   actions: {

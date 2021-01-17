@@ -42,5 +42,17 @@ const colorList = [
     "Orchid",
     "Aqua", //30 //don't need it
   ]
-export default { hello, bye, random, colorList}
+
+//Bang Wong color palettes
+const accessibleColorList = [
+    '#CC79A7',
+    '#D55E00',
+    '#0072B2',
+    '#F0E442',
+    '#009E73',
+    '#56B4E9',
+    '#E69F00',
+    '#000000',
+  ]
+export default { hello, bye, random, colorList, accessibleColorList}
 //module.exports={ hello, bye}
