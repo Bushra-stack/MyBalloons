@@ -15,6 +15,7 @@
     > 
     </div> -->
     <WebGazer @update="onUpdate"  /> 
+    <GazeCloud @update="onUpdate"  /> 
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
     <!-- <WebGazer v-if="off" @update="onUpdate" :off="off"/> -->
 
@@ -37,6 +38,7 @@
 
 <script>
 import WebGazer from "@/components/WebGazer.vue";
+import GazeCloud from "@/components/GazeCloud.vue";
 import StartMenu from "@/components/StartMenu.vue";
 import Game from "@/components/Game.vue";
 import GameSettings from "@/components/GameSettings.vue";
@@ -46,7 +48,7 @@ import HighScore from "@/components/HighScore.vue";
 
 export default {
   name: "App",
-  components: {WebGazer, StartMenu, Game, GameSettings, HighScore},
+  components: {WebGazer, GazeCloud, StartMenu, Game, GameSettings, HighScore},
   data() {
     return {
       x_wg: 0,
