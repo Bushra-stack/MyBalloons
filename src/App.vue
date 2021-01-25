@@ -1,19 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div
-    ref="balloon"
-    class="balloon"
-    v-bind:style="{
-    width: `${100}px`, x
-    height: `${120}px`, y
-    border: `${5}px solid red`,
-    position: `absolute`,
-    background: `black`,
-    left: `${50}px`, x
-    bottom: `${23}px`, y
-    }"
-    > 
-    </div> -->
+    
     <WebGazer @update="onUpdate"  /> 
     <GazeCloud @update="onUpdate"  /> 
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->

@@ -12,10 +12,12 @@
         
         <p id="control">Control with:</p>
         <label class="control" for="mouse">Mouse</label>
-        <input class="control" type="radio" id="mouse" name="control" value="mouse" checked>
-        <label class="control" for="eyetracking">Eyetracking</label>
-        <input class="control" type="radio" id="eyetracking" name="control" value="eyetracking"><br/>
-        
+        <input class="control" type="radio" id="mouse" name="control" value="mouse" checked >
+        <label class="control" for="webGazer">WebGazer</label>
+        <input class="control" type="radio" id="WebGazer" name="control" value="WebGazer">
+        <label class="control" for="GazeCloud">GazeCloud</label>
+        <input class="control" type="radio" id="GazeCloud" name="control" value="GazeCloud"><br/>
+
         <label for="color">Adapt Color</label><br>
         <input type="checkbox" id="color" name="color" value="false"/>    
         
@@ -50,7 +52,13 @@
                 this.$store.commit('changeStateMachine', "StartMenu");
             },
             saveSetting(){
-                var eyetracking= document.getElementById('eyetracking').checked ? true : false;
+                 var eyetracking= "Default";
+                if(document.getElementById('WebGazer').checked){
+                    eyetracking= "WebGazer";
+                }
+                if(document.getElementById('GazeCloud').checked){
+                    eyetracking= "GazeCloud";
+                }
                 console.log("eyetracking in game settings" + eyetracking);
                 this.$store.commit('changeEyetracking', {value: eyetracking});
                 var speedValuee = 2000 - this.speedOfInput +100 ;
@@ -213,8 +221,8 @@ label, #control{
     vertical-align: middle;
 }
 .control input{
-     height: 15px;
-        width: 15px;
-        vertical-align: middle;
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
 }
 </style>

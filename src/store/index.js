@@ -10,7 +10,7 @@ export default new Vuex.Store({
     amount: 10,
     score:0,
     stateMachine: "StartMenu",
-    eyetracking: false,
+    eyetracking: "Default",
     counterColorList: 0,
     accessibleColor: false,
   },

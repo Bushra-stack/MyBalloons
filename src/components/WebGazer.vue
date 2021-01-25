@@ -29,7 +29,7 @@ import webgazer from "webgazer";
             },
         },
         methods: {
-            async integrat(){
+            async integrate(){
                 const thiz = this;
                 window.applyCalmanFilter = true;
                 window.saveDataAccrossSessions = true;
@@ -50,9 +50,9 @@ import webgazer from "webgazer";
         },
         watch: {
             eyetrackinggetter(newValue) {
-                if(newValue){
-                    this.integrat();
-                } else if(!newValue){
+                if(newValue === "WebGazer"){
+                    this.integrate();
+                } else {
                     window.applyKalmanFilter= false;           
                     webgazer.params.showVideoPreview = false; 
                     webgazer.showPredictionPoints(false); 

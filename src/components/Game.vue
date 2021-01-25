@@ -55,6 +55,7 @@ import VueConfetti from "vue-confetti";
                 newY: true,
                 windowWidth: window.innerWidth,
                 windowHeight: window.innerHeight,
+                oneTimeConfetti: false,
             };
         },
         created () {
@@ -95,21 +96,13 @@ import VueConfetti from "vue-confetti";
             },
             incrementmyScore(){
                 this.$store.commit('incrementScore');
-                if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
+                if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter && this.oneTimeConfetti === false){
                     window.localStorage.setItem('High Score', this.scoregetter);
+                    this.$confetti.start();
+                    const confetti= this.$confetti;
                     alert("Yahoo! You reached an new high score!!");
-                   // VueConfetti.start();
-                   this.$confetti.start();
-                    //Confetti.startConfetti();
-                    // Party.screen({ 
-                    //     count: 500 * (window.innerWidth / 1980),
-                    //     countVariation: 0.5,
-                    //     angleSpan: 0,
-                    //     yVelocity: -100,
-                    //     yVelocityVariation: 2,
-                    //     rotationVelocityLimit: 6,
-                    //     scaleVariation: 0.8
-                    // });
+                    setTimeout(()=>{confetti.stop();}, 5000);
+                    this.oneTimeConfetti = true;
                 }
             },
             resetmyScore(){
