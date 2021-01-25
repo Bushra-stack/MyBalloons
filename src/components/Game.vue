@@ -96,13 +96,15 @@ import VueConfetti from "vue-confetti";
             },
             incrementmyScore(){
                 this.$store.commit('incrementScore');
-                if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter && this.oneTimeConfetti === false){
+                if(JSON.parse(window.localStorage.getItem('High Score'))<this.scoregetter){
                     window.localStorage.setItem('High Score', this.scoregetter);
-                    this.$confetti.start();
-                    const confetti= this.$confetti;
-                    alert("Yahoo! You reached an new high score!!");
-                    setTimeout(()=>{confetti.stop();}, 5000);
-                    this.oneTimeConfetti = true;
+                    if(this.oneTimeConfetti === false){
+                        this.$confetti.start();
+                        const confetti= this.$confetti;
+                        alert("Yahoo! You reached an new high score!!");
+                        setTimeout(()=>{confetti.stop();}, 5000);
+                        this.oneTimeConfetti = true;
+                    }
                 }
             },
             resetmyScore(){

@@ -72,6 +72,9 @@ export default {
 </script>
 
 <style scoped >
+#app{
+  z-index: -100;
+}
 #game-score{
   position: absolute;
   top:0;

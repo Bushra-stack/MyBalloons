@@ -93,7 +93,7 @@ div {
   width:110%;
   position:absolute;
   bottom:-12px; 
-  z-index:-100;
+  /* z-index:-100; */
 }
 
 

@@ -1,6 +1,6 @@
 <template>
 
-<div id ="gazeCloudDot"  :style="style" style="display: block; position: fixed; z-index: 99999; left: -5px; top: -5px; background: red; border-radius: 100%; opacity: 0.7; width: 10px; height: 10pxpx;">
+<div id ="gazeCloudDot"  :style="style" style="display: block; position: fixed; z-index: 1000; left: -5px; top: -5px; background: red; border-radius: 100%; opacity: 0.7; width: 10px; height: 10pxpx;">
 
 </div>
 </template>
