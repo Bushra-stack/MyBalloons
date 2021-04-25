@@ -52,7 +52,8 @@ const accessibleColorList = [
     '#009E73',
     '#56B4E9',
     '#E69F00',
-    '#000000',
+   // '#000000',
+    '#766A6A',
   ]
 export default { hello, bye, random, colorList, accessibleColorList}
 //module.exports={ hello, bye}

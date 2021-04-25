@@ -1,16 +1,15 @@
 <template>
-    <div>
-        <div
-            ref="blackBalloon"
-            class="blackBalloon"
-            v-bind:id="index"
-            v-bind:style="{
-            background: color,
-            left: `${x}px`,
-            bottom: `${y}px`,
-            }"
-            @click="$emit('balloon-click', index)"
-        >
+    <div
+        ref="blackBalloon"
+        class="blackBalloon"
+        v-bind:id="index"
+        v-bind:style="{
+        background: color,
+        left: `${x}px`,
+        bottom: `${y}px`,
+        }"
+        @click="$emit('balloon-click', index)"
+    >
     </div>
 </template>
 
@@ -46,9 +45,9 @@
             update(index) {
             this.$emit('updatePos',index);
             if(this.clockwise){
-                this.$refs.balloon.style.transform = "rotate(5deg)"; 
+                this.$refs.blackBalloon.style.transform = "rotate(5deg)"; 
             }else{
-                this.$refs.balloon.style.transform = "rotate(-5deg)"; 
+                this.$refs.blackBalloon.style.transform = "rotate(-5deg)"; 
             }
             this.clockwise=!this.clockwise;
             },
@@ -71,24 +70,35 @@
 
 <style scoped>
 div {
-  width: 100px;
-  height: 120px;
+  width: 85px;
+  height: 100px;
   position: absolute;
   border-radius: 50%;
   box-shadow:inset -10px -10px 0 rgba(0,0,0,0.07);
 }
-
-.balloon:before {
-  content:"▲";  /* X */
-  font-size:20px;
+.blackBalloon:after {
+  content:"▲";
+  font-size:22px;
   color:rgb(0, 0, 0);
+  opacity: 75%;
+  display:block;
+  text-align:center;
+  width:110%;
+  position:absolute;
+  bottom:-12px; 
+ 
+}
+.blackBalloon:before {
+  /*content: "\274C";*/
+  content: ' \271E';
+  color:tomato;
+  font-size:40px;
+  opacity: 100%;
   display:block;
   text-align:center;
   width:100%;
   position:absolute;
-  bottom:-12px; 
-  z-index:-100;
+  bottom:+40px; 
 }
-
 
 </style>

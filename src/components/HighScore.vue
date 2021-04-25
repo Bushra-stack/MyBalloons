@@ -79,6 +79,8 @@ h2{
     word-spacing: 0px;
     font-weight: 700;
     text-transform: capitalize;
+    padding:20px 10px 0px 10px;
+    margin: 60px auto 55px auto ;
 }
 p{
     font-size: 200%;
@@ -104,7 +106,7 @@ button {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
     padding:10px 10px 10px 10px;
-    margin: 55px auto 55px auto ;
+    margin: 10px auto 55px auto ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;

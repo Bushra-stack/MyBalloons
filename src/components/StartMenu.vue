@@ -3,6 +3,7 @@
         refs="startMenu"
         class="startMenu"
     >
+        <h1>Welcome to My Balloons</h1>
         <button id="Play_Now" v-if="!isSettingOn" @click="startGame">Play Now</button>
         <button id="Settings" v-if="!isSettingOn" @click="goToSettings">Settings</button>
         <button id="High_Score" v-if="!isSettingOn" @click="showHighScore">High Score</button>
@@ -160,5 +161,12 @@ button:hover{
 button:active{
 	position:relative;
 	top:1px;
+}
+h1{
+    color: #77290a;
+    display: block;
+    padding:15px 10px 0px 10px;
+    margin: 55px auto 55px auto ;
+    font-weight:bold;
 }
 </style>

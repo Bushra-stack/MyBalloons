@@ -85,9 +85,9 @@ div {
 
 .balloon:before {
   content:"▲";
-  font-size:20px;
-  color:currentColor; 
-  opacity: 60%;
+  font-size:22px;
+  color:currentColor;
+  opacity: 55%;
   display:block;
   text-align:center;
   width:110%;

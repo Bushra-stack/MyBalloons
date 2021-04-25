@@ -9,10 +9,12 @@ export default new Vuex.Store({
     speed: 500,
     amount: 10,
     score:0,
+    lives:3,
     stateMachine: "StartMenu",
     eyetracking: "Default",
     counterColorList: 0,
     accessibleColor: false,
+    gameOver: false,
   },
   getters: {
     stateMachineGetter: state => {
@@ -27,6 +29,9 @@ export default new Vuex.Store({
     scoreGetter: state => {
       return state.score;
     },
+    livesGetter: state => {
+      return state.lives;
+    },
     eyetrackingGetter: state => {
       return state.eyetracking;
     },
@@ -35,6 +40,9 @@ export default new Vuex.Store({
     },
     accessibleColorGetter: state => {
       return state.accessibleColor;
+    },
+    gameOverGetter: state=>{
+      return state.gameOver;
     },
 
   },
@@ -52,8 +60,14 @@ export default new Vuex.Store({
     incrementScore(state){
       state.score++;
     },
+    decrementLives(state){
+      state.lives--;
+    },
     resetScore(state){
       state.score=0;
+    },
+    resetLives(state){
+      state.lives=3;
     },
     changeEyetracking(state, payload){
       state.eyetracking=payload.value;
@@ -75,12 +89,15 @@ export default new Vuex.Store({
           state.counterColorList++;
         }
       }
-      
     },
     changeColorList(state, payload){
       state.accessibleColor=payload.value;
       console.log(`AccessibleColorList is ${state.accessibleColor}`)
     },
+    end_startGame(state, payload){
+      state.gameOver=payload.value;
+      console.log(`Game is ${state.gameOver}`)
+    }
   },
   actions: {
   },

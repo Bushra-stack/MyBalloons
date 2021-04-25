@@ -14,24 +14,41 @@
                 @updatePos="updateY(index)"
                 
             /> 
+            <BlackBalloon
+                v-for="(item, index) of listOfBlackBalloon"
+                :key="index+1*10"
+                :x="item.x"
+                :y="item.y"
+                :color="item.color"
+                :index="index"
+                @randomY="getRandomYBlack(index)"
+                @balloon-click="onBlackBalloonClick"
+                @updatePos="updateYBlack(index)"
+                
+            /> 
             <p id="game-score">Current Score {{scoregetter}}</p>
+            <p id="player-lifes">Current Lives {{livesgetter}}</p>
+
         </div>
         <button id="continueButton" v-if= "stateMachinegetter === 'GamePaused'" @click="continuePlaying">Continue </button>
         <button id="stopButton" v-if= "stateMachinegetter === 'GamePaused'" @click="stopTheGame">Stop</button>
+        <GameOver v-if="this.gameOvergetter" @updateLists="update2Lists"/>
     </div>
 </template>
 
 <script>
 import Balloon from "./Balloon.vue";
+import BlackBalloon from "./BlackBalloon.vue";
 import Init from "@/util/init.js";
 import Vue from 'vue';
 import VueConfetti from "vue-confetti";
+import GameOver from "./GameOver.vue";
 //import Confetti from "@/util/confetti.js-master/confetti.js";
 //import Party from "@/util/party-js-master/party.js";
  Vue.use(VueConfetti)
     export default {
         name: "Game",
-        components: {Balloon},
+        components: {Balloon, BlackBalloon, GameOver},
         props: {
             xWG: {
                 type: Number,
@@ -49,13 +66,17 @@ import VueConfetti from "vue-confetti";
                 stopCounter: 0,
                 state: "stop", //play. pause
                 list: [
-                    { x: 0, y: 0, color: "#332288" }, //lila
+                    { x: 50, y: 0, color: "#332288" }, //lila
+                ],
+                listOfBlackBalloon: [
+                    { x: 25, y: 0, color: "#000000" }, //schwarz
                 ],
                 colorList: Init.colorList,
                 newY: true,
                 windowWidth: window.innerWidth,
                 windowHeight: window.innerHeight,
                 oneTimeConfetti: false,
+                
             };
         },
         created () {
@@ -79,6 +100,11 @@ import VueConfetti from "vue-confetti";
                 this.list.splice(this.list.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
             }  
+            i=0;
+            for(i ; i < 2;  i++){
+                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: "#000000"});
+            }  
+            i=0;
             window.addEventListener('resize', this.resizeXY);
         },
         methods: {
@@ -89,7 +115,9 @@ import VueConfetti from "vue-confetti";
             stopTheGame(){
                 this.$store.commit('changeStateMachine', "StartMenu");
                 this.list = [];
+                this.listOfBlackBalloon = []
                 this.resetmyScore();
+                this.resetmyLives();
             },
             continuePlaying(){
                 this.$store.commit('changeStateMachine', 'GameStarted') 
@@ -107,12 +135,23 @@ import VueConfetti from "vue-confetti";
                     }
                 }
             },
+            decrementmyLives(){
+                this.$store.commit('decrementLives');
+            },
             resetmyScore(){
                 this.$store.commit('resetScore');
             },
             onBalloonClick(index) {
                 this.list.splice(index, 1);
                 this.incrementmyScore();
+            },
+            onBlackBalloonClick(index) {
+                this.listOfBlackBalloon.splice(index, 1);
+                this.decrementmyLives();
+                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0, { x: Init.random(10,window.innerWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: '#000000' } );
+            },
+            resetmyLives(){
+                this.$store.commit('resetLives');
             },
             updateY(index){
                 if(this.list.length == this.amountgetter){
@@ -121,9 +160,15 @@ import VueConfetti from "vue-confetti";
                     }else{
                         this.list[index].y=this.list[index].y + 10;
                     }
-
                 }else {
                     this.updateList();
+                }
+            },
+            updateYBlack(index){
+                if(this.listOfBlackBalloon[index].y > window.innerHeight + 125){
+                    this.listOfBlackBalloon[index].y=Init.random(-50, 10);
+                }else{
+                    this.listOfBlackBalloon[index].y=this.listOfBlackBalloon[index].y + 10;
                 }
             },
             updateList(){
@@ -137,6 +182,11 @@ import VueConfetti from "vue-confetti";
                     this.list[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
                 }
             },
+            getRandomYBlack(index){
+                if(this.newY){
+                    this.listOfBlackBalloon[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
+                }
+            },
             resizeXY(){
                 console.log("resize");
                 var diffWidthInPercentage = window.innerWidth / this.windowWidth;
@@ -148,7 +198,12 @@ import VueConfetti from "vue-confetti";
                     this.list[j].x = this.list[j].x * diffWidthInPercentage;
                     this.list[j].y = this.list[j].y * diffHeightInPercentage;
                 }
-            }
+            },
+            update2Lists(){
+                this.list = [];
+                this.listOfBlackBalloon= [];
+            },
+
         },
         computed: {
             stateMachinegetter(){
@@ -159,6 +214,9 @@ import VueConfetti from "vue-confetti";
             },
             scoregetter(){
                 return this.$store.getters.scoreGetter;
+            },
+            livesgetter(){
+                 return this.$store.getters.livesGetter;
             },
             counterColorListgetter(){
                 return this.$store.getters.counterColorListGetter;
@@ -171,6 +229,9 @@ import VueConfetti from "vue-confetti";
             },
             accessibleColorgetter(){
                 return this.$store.getters.accessibleColorGetter;
+            },
+            gameOvergetter(){
+                 return this.$store.getters.gameOverGetter;
             },
             btnPause(){
                 let btnPAUSE = document.getElementById("pauseButton");
@@ -186,6 +247,13 @@ import VueConfetti from "vue-confetti";
             },
         },
         watch: {
+            livesgetter(newValue){
+                if(newValue<=0){
+                    this.$store.commit('end_startGame', {value: true});
+                }else{
+                    this.$store.commit('end_startGame', {value: false});
+                }
+            },
             xWG_yWG(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');          
                 if (this.eyetrackinggetter){
