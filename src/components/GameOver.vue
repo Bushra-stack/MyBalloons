@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="foo">
-            <h1 >    Game Over!    </h1>
+            <h1 id="gameOverH1" >    Game Over!    </h1>
             <div id="center">
                 <button id="stopButtonG"  @click="stopTheGameG">Upss!</button>
             </div>
@@ -28,7 +28,7 @@
             }
         },
         created(){
-            this.$refs.foo.style.transform= "scale(2,5)";
+            
         },
         methods: {
             stopTheGameG(){
@@ -67,7 +67,7 @@
     }
 </script>
 
-<style scoped>
+<style >
 .foo {
 position: absolute;
 top: 0;
@@ -80,7 +80,7 @@ padding-top: 180px;
 border: 5px solid #034441;
 background-color: rgba(25, 83, 66, 0.95);
 }
-h1{
+#gameOverH1{
 color: #4b0615;
 text-shadow:5px 2px 1px #751c4f;
 font-family: Georgia, serif;

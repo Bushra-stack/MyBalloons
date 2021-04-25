@@ -9,10 +9,8 @@
                 :y="item.y"
                 :color="item.color"
                 :index="index"
-                @randomY="getRandomY(index)"
                 @balloon-click="onBalloonClick"
                 @updatePos="updateY(index)"
-                
             /> 
             <BlackBalloon
                 v-for="(item, index) of listOfBlackBalloon"
@@ -21,10 +19,8 @@
                 :y="item.y"
                 :color="item.color"
                 :index="index"
-                @randomY="getRandomYBlack(index)"
                 @balloon-click="onBlackBalloonClick"
-                @updatePos="updateYBlack(index)"
-                
+                @updatePosBlack="updateYBlack(index)"
             /> 
             <p id="game-score">Current Score {{scoregetter}}</p>
             <p id="player-lifes">Current Lives {{livesgetter}}</p>
@@ -94,15 +90,14 @@ import GameOver from "./GameOver.vue";
                 this.colorList= Init.colorList;
                 console.log("still colorlist");
             }
-            //console.log(this.amountgetter);
             var i = 0;
             for(i ; i < (this.amountgetter - 1);  i++){
-                this.list.splice(this.list.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: this.colorList[this.counterColorListgetter] });
+                this.list.splice(this.list.length, 0 ,{ x: Init.random(25, window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: this.colorList[this.counterColorListgetter] });
                 this.$store.commit('incrementCounterColorList');
             }  
             i=0;
             for(i ; i < 2;  i++){
-                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0 ,{ x: Init.random(50, window.innerWidth - 110), y: 0, color: "#000000"});
+                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0 ,{ x: Init.random(25, window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: "#000000"});
             }  
             i=0;
             window.addEventListener('resize', this.resizeXY);
@@ -148,7 +143,7 @@ import GameOver from "./GameOver.vue";
             onBlackBalloonClick(index) {
                 this.listOfBlackBalloon.splice(index, 1);
                 this.decrementmyLives();
-                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0, { x: Init.random(10,window.innerWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: '#000000' } );
+                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0, { x: Init.random(25,window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: '#000000' } );
             },
             resetmyLives(){
                 this.$store.commit('resetLives');
@@ -156,9 +151,9 @@ import GameOver from "./GameOver.vue";
             updateY(index){
                 if(this.list.length == this.amountgetter){
                     if(this.list[index].y > window.innerHeight + 125){
-                        this.list[index].y=Init.random(-50, 10);
+                        this.list[index].y=10;
                     }else{
-                        this.list[index].y=this.list[index].y + 10;
+                        this.list[index].y=this.list[index].y + 2;
                     }
                 }else {
                     this.updateList();
@@ -166,25 +161,15 @@ import GameOver from "./GameOver.vue";
             },
             updateYBlack(index){
                 if(this.listOfBlackBalloon[index].y > window.innerHeight + 125){
-                    this.listOfBlackBalloon[index].y=Init.random(-50, 10);
+                    this.listOfBlackBalloon[index].y=10;
                 }else{
-                    this.listOfBlackBalloon[index].y=this.listOfBlackBalloon[index].y + 10;
+                    this.listOfBlackBalloon[index].y=this.listOfBlackBalloon[index].y + 4;
                 }
             },
             updateList(){
                 if (this.list.length < this.amountgetter){
-                    this.list.splice(this.list.length, 0, { x: Init.random(10,window.innerWidth - 110), y: Init.random(-50, window.innerHeight * 0.45), color: this.colorList[this.counterColorListgetter] } );
+                    this.list.splice(this.list.length, 0, { x: Init.random(25,window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: this.colorList[this.counterColorListgetter] } );
                     this.$store.commit('incrementCounterColorList');
-                }
-            },
-            getRandomY(index){
-                if(this.newY){
-                    this.list[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
-                }
-            },
-            getRandomYBlack(index){
-                if(this.newY){
-                    this.listOfBlackBalloon[index].y= Init.random(-50, window.innerHeight * 0.45);// (min,max)
                 }
             },
             resizeXY(){
@@ -203,7 +188,6 @@ import GameOver from "./GameOver.vue";
                 this.list = [];
                 this.listOfBlackBalloon= [];
             },
-
         },
         computed: {
             stateMachinegetter(){

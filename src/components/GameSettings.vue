@@ -3,12 +3,12 @@
         <label for="speed">Speed</label>
         <p>{{speedOfInput }}</p>
         <input v-model="speedOfInput" type="range" id="speed" name="speed" 
-         min="100" max="2000" value="300" step="100" >
+         min="1" max="5" value="3" step="1" >
 
         <label for="amount">Amount</label>
         <p>{{amountValue}}</p>
         <input  v-model="amountValue" type="range" id="amount" name="amount" 
-         min="1" max="30" value="10" step="1">
+         min="5" max="30" value="10" step="1">
         
         <p id="control">Control with:</p>
         <label class="control" for="mouse">Mouse</label>
@@ -43,8 +43,8 @@
             return {
                 saveCounter: 0,
                 backCounter: 0,
-                speedOfInput: 200,
-                amountValue: 5,
+                speedOfInput: 4,
+                amountValue: 7,
             }
         },
         methods: {
@@ -61,16 +61,13 @@
                 }
                 console.log("eyetracking in game settings" + eyetracking);
                 this.$store.commit('changeEyetracking', {value: eyetracking});
-                var speedValuee = 2000 - this.speedOfInput +100 ;
-                this.$store.commit('saveSettings', {speed: speedValuee , amount: this.amountValue});
+                var speedValue = (50 - (this.speedOfInput * 10 )) + 20;
+                this.$store.commit('saveSettings', {speed: speedValue , amount: this.amountValue});
                 var accessibleColor = document.getElementById('color').checked ? true : false;
                 this.$store.commit('changeColorList', {value: accessibleColor});
             },
         },
         computed: {
-            speedValue(){
-                return  2000 - this.speedOfInput + 100;
-            },
             xWG_yWG(){
                 return `${this.xWG}|${this.yWG}`;
             },
@@ -85,7 +82,6 @@
                 let btnBACK = document.getElementById("backButton");
                 return btnBACK.getBoundingClientRect();
             },
-
         },
         watch: {
             xWG_yWG(newValue) {
@@ -99,7 +95,6 @@
                         this.saveCounter--;
                         this.backCounter++;
                     }
-
                     if(this.saveCounter >= 7){
                         this.saveCounter=0;
                         this.backCounter=0;
@@ -117,7 +112,6 @@
 </script>
 
 <style scoped>
-
 p{
     font-size: 140%;
     color: #0e8328;

@@ -11,7 +11,6 @@
     }"
     @click="$emit('balloon-click', index)"
   >
-    <!-- {{ x }}/{{ y }} -->
   </div>
 </template>
 
@@ -46,12 +45,6 @@ export default {
   methods: {
     update(index) {
       this.$emit('updatePos',index);
-      if(this.clockwise){
-        this.$refs.balloon.style.transform = "rotate(5deg)"; 
-      }else{
-        this.$refs.balloon.style.transform = "rotate(-5deg)"; 
-      }
-      this.clockwise=!this.clockwise;
     },
   },
   computed: {
@@ -59,9 +52,9 @@ export default {
       return this.$store.getters.speedGetter;
     }
   },
-  created(index) {
-      this.$emit('randomY',index);
-      //console.log("speedgetter "+ this.speedgetter);
+  created() {
+     // index this.$emit('randomY',index);
+      //console.log("speedgetter "+ this.speedgetter);  
       this.intervalID = window.setInterval(this.update, this.speedgetter);    
   },
   beforeUpdate () {
@@ -75,12 +68,22 @@ export default {
 </script>
 
 <style scoped>
+@keyframes rotatefeatured {
+    0%    { transform: rotate(0deg);}
+    25%    { transform: rotate(7deg);}
+    50%   { transform: rotate(0deg);}
+    75%    { transform: rotate(-5deg);}
+    100%  { transform: rotate(-0deg);} 
+}
 div {
   width: 100px;
   height: 120px;
   position: absolute;
   border-radius: 50%;
   box-shadow:inset -10px -10px 0 rgba(0,0,0,0.07);
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+  animation: rotatefeatured 4s infinite;
 }
 
 .balloon:before {
