@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    
     <WebGazer @update="onUpdate"  /> 
     <GazeCloud @update="onUpdate"  /> 
     <!-- <WebGazer v-if="eyetrackinggetter" @update="onUpdate" /> -->
@@ -19,7 +18,6 @@
     <section  v-if= "stateMachinegetter === 'HighScore'">
       <HighScore :xWG="x_wg" :yWG="y_wg"/>
     </section>
-
   </div>
 </template>
 

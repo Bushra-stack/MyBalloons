@@ -3,7 +3,7 @@
         <!-- <h2>Current Score:</h2>
         <p>{{scoregetter}}</p> -->
         <h2 >Highest Score:</h2>
-        <p>{{highestScoreFromStorage}}</p>
+        <p>{{highestScore}}</p>
 
         <button id="Hide_Score" @click="hideScore">Hide Score</button>
     </div>
@@ -37,9 +37,6 @@
             // scoregetter(){
             //     return this.$store.getters.scoreGetter;
             // },
-            highestScoreFromStorage(){
-                return this.highestScore;
-            },
             xWG_yWG(){
                 return `${this.xWG}|${this.yWG}`;
             },

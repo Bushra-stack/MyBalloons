@@ -14,11 +14,11 @@
             /> 
             <BlackBalloon
                 v-for="(item, index) of listOfBlackBalloon"
-                :key="index+1*10"
+                :key="(index+1)*100"
                 :x="item.x"
                 :y="item.y"
                 :color="item.color"
-                :index="index"
+                :index="(index+1)*100"
                 @balloon-click="onBlackBalloonClick"
                 @updatePosBlack="updateYBlack(index)"
             /> 
@@ -28,7 +28,9 @@
         </div>
         <button id="continueButton" v-if= "stateMachinegetter === 'GamePaused'" @click="continuePlaying">Continue </button>
         <button id="stopButton" v-if= "stateMachinegetter === 'GamePaused'" @click="stopTheGame">Stop</button>
-        <GameOver v-if="this.gameOvergetter" @updateLists="update2Lists"/>
+       
+       <GameOver v-if="this.gameOvergetter" :xWG_GameOver="xWG" :yWG_GameOver="yWG" @updateLists="update2Lists"/>
+
     </div>
 </template>
 
@@ -141,7 +143,7 @@ import GameOver from "./GameOver.vue";
                 this.incrementmyScore();
             },
             onBlackBalloonClick(index) {
-                this.listOfBlackBalloon.splice(index, 1);
+                this.listOfBlackBalloon.splice(((index/100)-1), 1);
                 this.decrementmyLives();
                 this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0, { x: Init.random(25,window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: '#000000' } );
             },
@@ -182,6 +184,11 @@ import GameOver from "./GameOver.vue";
                 for(j; j<this.list.length ; j++){
                     this.list[j].x = this.list[j].x * diffWidthInPercentage;
                     this.list[j].y = this.list[j].y * diffHeightInPercentage;
+                }
+                var jb=0;
+                for(jb; jb<this.listOfBlackBalloon.length ; jb++){
+                    this.listOfBlackBalloon[jb].x = this.listOfBlackBalloon[jb].x * diffWidthInPercentage;
+                    this.listOfBlackBalloon[jb].y = this.listOfBlackBalloon[jb].y * diffHeightInPercentage;
                 }
             },
             update2Lists(){
@@ -254,6 +261,22 @@ import GameOver from "./GameOver.vue";
                                 console.log(this.list[l].color);
                                 this.list.splice(l, 1);
                                 this.incrementmyScore();
+                            }
+                        }
+                        var lB=0;
+                        let currentBlackBalloon = null;
+                        let currBlackBalloon= null;
+                        var bIndex
+                        for(lB; lB<this.listOfBlackBalloon.length; lB++){
+                            //console.log("xWg: "+ newxWg + " | yWg: " + newyWg);
+                            //console.log("x: " + this.list[l].x + " | y: " + this.list[l].y);
+                            bIndex=((lB+1)*100);
+                            currentBlackBalloon = document.getElementById(`${bIndex}`);
+                            currBlackBalloon= currentBlackBalloon.getBoundingClientRect();
+                            if(newxWg<=currBlackBalloon.right && newxWg>=currBlackBalloon.left && newyWg<=currBlackBalloon.bottom && newyWg>=currBlackBalloon.top){
+                                this.listOfBlackBalloon.splice(lB, 1);
+                                this.decrementmyLives();
+                                this.listOfBlackBalloon.splice(this.listOfBlackBalloon.length, 0, { x: Init.random(25,window.innerWidth - 135), y: Init.random(10, window.innerHeight * 0.55), color: '#000000' } );
                             }
                         }
                         if(newxWg<=this.btnPause.right && newxWg>=this.btnPause.left && newyWg<=this.btnPause.bottom && newyWg>=this.btnPause.top ){

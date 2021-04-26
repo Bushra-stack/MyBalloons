@@ -42,19 +42,18 @@ export default {
       clockwise: true,
     };
   },
-  methods: {
-    update(index) {
-      this.$emit('updatePos',index);
-    },
-  },
   computed: {
     speedgetter(){
       return this.$store.getters.speedGetter;
     }
   },
+  methods: {
+    update(index) {
+      this.$emit('updatePos',index);
+    },
+  },
   created() {
-     // index this.$emit('randomY',index);
-      //console.log("speedgetter "+ this.speedgetter);  
+      // index this.$emit('randomY',index);
       this.intervalID = window.setInterval(this.update, this.speedgetter);    
   },
   beforeUpdate () {

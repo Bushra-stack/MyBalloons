@@ -13,11 +13,11 @@
     export default {
         name: "GameOver",
         props: {
-            xWG: {
+            xWG_GameOver: {
                 type: Number,
                 default: 0,
             },
-            yWG: {
+            yWG_GameOver: {
                 type: Number,
                 default: 0,
             },
@@ -39,8 +39,8 @@
             },
         },
         computed: {
-            xWG_yWG(){
-                return `${this.xWG}|${this.yWG}`;
+            xWG_yWG_GameOver(){
+                return `${this.xWG_GameOver}|${this.yWG_GameOver}`;
             },
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
@@ -51,16 +51,14 @@
             },
         },
         watch: {
-            xWG_yWG(newValue) {
+            xWG_yWG_GameOver(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');
-                if (this.eyetrackinggetter){
-                    if(newxWg<=this.btnStopG.right && newxWg>=this.btnStopG.left && newyWg<=this.btnStopG.bottom && newyWg>=this.btnStopG.top ){
-                        this.stopCounterG++;
-                    }
-                    if(this.stopCounterG>=7){
-                        this.stopCounterG=0;
-                        this.stopTheGameG();
-                    }
+                if(newxWg<=this.btnStopG.right && newxWg>=this.btnStopG.left && newyWg<=this.btnStopG.bottom && newyWg>=this.btnStopG.top ){
+                    this.stopCounterG++;
+                }
+                if(this.stopCounterG>=7){
+                    this.stopCounterG=0;
+                    this.stopTheGameG();
                 }
             }
         }
@@ -75,7 +73,7 @@ bottom: 0;
 width: 100%;
 height:100%;
 margin: auto;
-padding-top: 180px;
+padding-top: 210px;
 
 border: 5px solid #034441;
 background-color: rgba(25, 83, 66, 0.95);
@@ -84,7 +82,7 @@ background-color: rgba(25, 83, 66, 0.95);
 color: #4b0615;
 text-shadow:5px 2px 1px #751c4f;
 font-family: Georgia, serif;
-font-size: 70px;
+font-size: 85px;
 letter-spacing: 1.4px;
 word-spacing: 0px;
 font-weight: 700;
@@ -99,18 +97,18 @@ height: 30%;
 }
 @keyframes zoominoutsinglefeatured {
     0% {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
     50% {
-        transform: scale(1.75);
+        transform: scale(1.5);
     }
     100% {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
 }
 #stopButtonG {
 position: absoult;
-font-size:30px;
+font-size:40px;
 font-weight:bold;
 text-decoration:none;
 text-shadow:0px 1px 0px #472e2e;
