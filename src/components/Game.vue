@@ -218,6 +218,9 @@ import GameOver from "./GameOver.vue";
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            timeForEyetrackinggetter(){
+                return this.$store.getters.timeForEyetrackingGetter;
+            },
             accessibleColorgetter(){
                 return this.$store.getters.accessibleColorGetter;
             },
@@ -247,7 +250,7 @@ import GameOver from "./GameOver.vue";
             },
             xWG_yWG(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');          
-                if (this.eyetrackinggetter){
+                if (this.livesgetter > 0){
                     if(this.stateMachinegetter === 'GameStarted'){
                         var l=0;
                         let currentBalloon = null;
@@ -282,7 +285,8 @@ import GameOver from "./GameOver.vue";
                         if(newxWg<=this.btnPause.right && newxWg>=this.btnPause.left && newyWg<=this.btnPause.bottom && newyWg>=this.btnPause.top ){
                             this.pauseCounter++;
                         }
-                        if(this.pauseCounter >= 7 ){
+                        document.getElementById("pauseButton").style.opacity = `${1 - (this.pauseCounter /(this.timeForEyetrackinggetter +2))}`;
+                        if(this.pauseCounter >= this.timeForEyetrackinggetter){
                             this.pauseCounter=0;
                             this.pauseTheGame();
                         }
@@ -295,12 +299,14 @@ import GameOver from "./GameOver.vue";
                             this.continueCounter--;
                             this.stopCounter++;
                         }
-                        if(this.continueCounter >=7){
+                        document.getElementById("stopButton").style.opacity = `${1 - (this.stopCounter /(this.timeForEyetrackinggetter +2))}`;
+                        document.getElementById("continueButton").style.opacity = `${1 - (this.continueCounter /(this.timeForEyetrackinggetter +2))}`;
+                        if(this.continueCounter >=this.timeForEyetrackinggetter){
                             this.continueCounter=0;
                             this.stopCounter=0;
                             this.continuePlaying();
                         }
-                        if(this.stopCounter >=7){
+                        if(this.stopCounter >=this.timeForEyetrackinggetter){
                             this.continueCounter=0;
                             this.stopCounter=0;
                             this.stopTheGame();

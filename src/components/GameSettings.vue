@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <label for="speed">Speed</label>
+    <div id="settings">
+        <label id="speedLabel" for="speed">Speed</label>
         <p>{{speedOfInput }}</p>
         <input v-model="speedOfInput" type="range" id="speed" name="speed" 
          min="1" max="5" value="3" step="1" >
@@ -17,9 +17,9 @@
         <input class="control" type="radio" id="WebGazer" name="control" value="WebGazer">
         <label class="control" for="GazeCloud">GazeCloud</label>
         <input class="control" type="radio" id="GazeCloud" name="control" value="GazeCloud"><br/>
-
-        <label for="color">Adapt Color</label><br>
-        <input type="checkbox" id="color" name="color" value="false"/>    
+      
+        <label for="color">Adapt Color <input type="checkbox" id="color" name="color" value="false"/>  </label><br>
+           
         
         <button @click="backFromSetting" id="backButton">Back</button>
         <button @click="saveSetting" id="saveButton">Save</button>
@@ -74,6 +74,9 @@
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            timeForEyetrackinggetter(){
+                return this.$store.getters.timeForEyetrackingGetter;
+            },
             btnSave(){
                 let btnSAVE = document.getElementById("saveButton");
                 return btnSAVE.getBoundingClientRect();
@@ -86,7 +89,6 @@
         watch: {
             xWG_yWG(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');
-                if (this.eyetrackinggetter){
                     if(newxWg<=this.btnSave.right && newxWg>=this.btnSave.left && newyWg<=this.btnSave.bottom && newyWg>=this.btnSave.top ){
                         this.saveCounter++;
                         this.backCounter--;
@@ -95,17 +97,18 @@
                         this.saveCounter--;
                         this.backCounter++;
                     }
-                    if(this.saveCounter >= 7){
+                    document.getElementById("saveButton").style.opacity = `${1 - (this.saveCounter /(this.timeForEyetrackinggetter +2))}`;
+                    document.getElementById("backButton").style.opacity = `${1 - (this.backCounter /(this.timeForEyetrackinggetter +2))}`;
+                    if(this.saveCounter >= this.timeForEyetrackinggetter){
                         this.saveCounter=0;
                         this.backCounter=0;
                         this.saveSetting();
                     }
-                    if(this.backCounter >= 7){
+                    if(this.backCounter >= this.timeForEyetrackinggetter){
                         this.saveCounter=0;
                         this.backCounter=0;
                         this.backFromSetting();
                     }
-                }
             },
         }
     }
@@ -118,12 +121,21 @@ p{
     font-weight: bold;
     text-shadow: #eceaea 2px 1px 0px;
 }
-input{
+
+input[type=range]{
     display: block;
     margin: 10px  auto 20px auto ;
     width: 40%;
 }
-label, #control{
+input[type=checkbox],
+    input[type=radio] {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+    margin: 20px  auto 20px auto ;
+
+}
+label{
     font-size: 125%;
     color: #164faa;
     text-shadow: #eceaea 2px 2px 1px;
@@ -133,6 +145,26 @@ label, #control{
     word-spacing: 0px;
     font-weight: 700;
     text-transform: capitalize;
+    margin: 150px auto 55px auto ;
+    padding:200px auto 0px auto;
+}
+
+
+#control{
+    font-size: 125%;
+    color: #164faa;
+    text-shadow: #eceaea 2px 2px 1px;
+    font-family: Georgia, serif;
+    font-size: 35px;
+    letter-spacing: 1.4px;
+    word-spacing: 0px;
+    font-weight: 700;
+    text-transform: capitalize;
+    margin: 50px auto 40px auto ;
+
+}
+#settings{
+
 }
 #saveButton {
     width: 25% ;
@@ -151,7 +183,7 @@ label, #control{
 	text-decoration:none;
 	text-shadow:0px 1px 0px #86ae47;
     padding:10px 10px 10px 10px;
-    margin: 20px 30px 40px 30px ;
+    margin: 20px 40px 20px 50px ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;
@@ -181,7 +213,7 @@ label, #control{
 	text-decoration:none;
 	text-shadow:0px 1px 0px #cc9f52;
     padding:10px 10px 10px 10px;
-    margin: 20px 30px 40px 30px ;
+    margin: 20px 40px 20px 50px ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;
@@ -195,9 +227,9 @@ label, #control{
 	top:1px;
 }   
 #color{
-    width:45px;
-    height:45px;
-    margin: 30px  auto 15px auto ; 
+    width:50px;
+    height:50px;
+    margin: 40px  auto 20px auto ; 
 }
 .control{
     font-family: unset;
@@ -213,10 +245,13 @@ label, #control{
     height: 15px;
     width: 15px;
     vertical-align: middle;
+    margin: 50px  auto 30px auto ; 
 }
 .control input{
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
     vertical-align: middle;
+    margin: 50px  auto 30px auto ; 
+
 }
 </style>

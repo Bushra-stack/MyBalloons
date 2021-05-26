@@ -34,32 +34,35 @@
             }
         },
         computed: {
-            // scoregetter(){
-            //     return this.$store.getters.scoreGetter;
-            // },
             xWG_yWG(){
                 return `${this.xWG}|${this.yWG}`;
             },
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            timeForEyetrackinggetter(){
+                return this.$store.getters.timeForEyetrackingGetter;
+            },
             btnHide(){
                 let btnHIDE = document.getElementById("Hide_Score");
                 return btnHIDE.getBoundingClientRect();
             },
+            
+                   // scoregetter(){
+            //     return this.$store.getters.scoreGetter;
+            // },
         },
         watch: {
             xWG_yWG(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');
-                if (this.eyetrackinggetter){
                     if(newxWg<=this.btnHide.right && newxWg>=this.btnHide.left && newyWg<=this.btnHide.bottom && newyWg>=this.btnHide.top ){
                         this.hideCounter++;
                     }
-                    if(this.hideCounter>=7){
+                    document.getElementById("Hide_Score").style.opacity = `${1 - (this.hideCounter /(this.timeForEyetrackinggetter +2))}`;
+                    if(this.hideCounter>=this.timeForEyetrackinggetter){
                         this.hideCounter=0;
                         this.hideScore();
                     }
-                }
             }
         }
     }

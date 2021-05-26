@@ -15,6 +15,7 @@ export default new Vuex.Store({
     counterColorList: 0,
     accessibleColor: false,
     gameOver: false,
+    timeForEyetracking:0,
   },
   getters: {
     stateMachineGetter: state => {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     gameOverGetter: state=>{
       return state.gameOver;
     },
+    timeForEyetrackingGetter: state =>{
+      return state.timeForEyetracking;
+    },
 
   },
   mutations: {
@@ -72,6 +76,11 @@ export default new Vuex.Store({
     changeEyetracking(state, payload){
       state.eyetracking=payload.value;
       console.log(`Eyetracking is ${state.eyetracking}`);
+      if (this.eyetrackinggetter === 'WebGazer'){
+        state.timeForEyetracking = 6;
+      }else if (this.eyetrackinggetter === 'GazeCloud'){
+        state.timeForEyetracking = 11;
+      }
     },
     incrementCounterColorList(state){
       if(state.accessibleColor){

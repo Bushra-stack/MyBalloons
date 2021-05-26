@@ -30,6 +30,7 @@
                 startCounter: 0,
                 settingCounter:0,
                 scoreCounter: 0,
+                //time: 0,
             }
         },
         methods:{
@@ -53,6 +54,9 @@
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            timeForEyetrackinggetter(){
+                return this.$store.getters.timeForEyetrackingGetter;
+            },
             btn1(){
                 let btn1elem = document.getElementById("Play_Now");
                 return btn1elem.getBoundingClientRect();
@@ -69,7 +73,6 @@
         watch: {
             xWG_yWG(newValue) {
                 const [newxWg, newyWg] = newValue.split('|');
-               if (this.eyetrackinggetter){
                     if(newxWg<=this.btn1.right && newxWg>=this.btn1.left && newyWg<=this.btn1.bottom && newyWg>=this.btn1.top ){
                         console.log("play now");
                         this.startCounter++;
@@ -88,26 +91,31 @@
                         this.settingCounter--;
                         this.scoreCounter++;
                     }
-
-                    if(this.startCounter >= 7){
+                    document.getElementById("Play_Now").style.opacity = `${1 - (this.startCounter /(this.timeForEyetrackinggetter +2))}`;
+                   // this.startCounter<=0 ? document.getElementById("Play_Now").style.width= "30%" : document.getElementById("Play_Now").style.width = `${30 + (this.startCounter * 2)}%`;
+                    document.getElementById("Settings").style.opacity = `${1 - (this.settingCounter /(this.timeForEyetrackinggetter+2))}`;
+                   // this.settingCounter<=0 ?  document.getElementById("Settings").style.width = "30%" :  document.getElementById("Settings").style.width = `${30 + (this.settingCounter * 2)}%`;
+                    document.getElementById("High_Score").style.opacity = `${1 - (this.scoreCounter /(this.timeForEyetrackinggetter+2))}`;
+                   // this.scoreCounter<=0 ? document.getElementById("High_Score").style.width = "30%"  : document.getElementById("High_Score").style.width = `${30 + (this.scoreCounter * 2)}%`;
+                  
+                   if(this.startCounter >= this.timeForEyetrackinggetter){
                         this.startCounter=0;
                         this.settingCounter=0;
                         this.scoreCounter=0;
                         this.startGame();
                     }
-                    if(this.settingCounter >= 7){
+                    if(this.settingCounter >=this.timeForEyetrackinggetter){
                         this.startCounter=0;
                         this.settingCounter=0;
                         this.scoreCounter=0;
                         this.goToSettings();
                     }
-                    if(this.scoreCounter >= 7){
+                    if(this.scoreCounter >= this.timeForEyetrackinggetter){
                         this.startCounter=0;
                         this.settingCounter=0;
                         this.scoreCounter=0;
                         this.showHighScore();
                     }
-                }
             }
         },
     }
@@ -118,8 +126,8 @@ div{
 
 }
 button{
-    width: 40%;
-    height: 120px ;
+    width: 30%;
+    height: 140px ;
 	-moz-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
 	box-shadow:inset 0px 1px 0px 0px #f7c5c0;
@@ -143,7 +151,7 @@ button{
 	text-shadow:0px 1px 0px #b23e35;
     display: block;
     padding:10px 10px 10px 10px;
-    margin: 55px auto 55px auto ;
+    margin: 90px auto 55px auto ;
     overflow: hidden;
     text-overflow: ellipsis; 
     white-space: nowrap;

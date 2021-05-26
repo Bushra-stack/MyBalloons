@@ -45,6 +45,9 @@
             eyetrackinggetter(){
                 return this.$store.getters.eyetrackingGetter;
             },
+            timeForEyetrackinggetter(){
+                return this.$store.getters.timeForEyetrackingGetter;
+            },
             btnStopG(){
                 let btnSTOPG = document.getElementById("stopButtonG");
                 return btnSTOPG.getBoundingClientRect();
@@ -56,7 +59,8 @@
                 if(newxWg<=this.btnStopG.right && newxWg>=this.btnStopG.left && newyWg<=this.btnStopG.bottom && newyWg>=this.btnStopG.top ){
                     this.stopCounterG++;
                 }
-                if(this.stopCounterG>=7){
+                document.getElementById("stopButtonG").style.opacity = `${1 - (this.stopCounterG /(this.timeForEyetrackinggetter +2))}`;
+                if(this.stopCounterG>=this.timeForEyetrackinggetter){
                     this.stopCounterG=0;
                     this.stopTheGameG();
                 }
