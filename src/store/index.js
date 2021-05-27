@@ -76,9 +76,9 @@ export default new Vuex.Store({
     changeEyetracking(state, payload){
       state.eyetracking=payload.value;
       console.log(`Eyetracking is ${state.eyetracking}`);
-      if (this.eyetrackinggetter === 'WebGazer'){
+      if (state.eyetracking === 'WebGazer'){
         state.timeForEyetracking = 6;
-      }else if (this.eyetrackinggetter === 'GazeCloud'){
+      }else if (state.eyetracking === 'GazeCloud'){
         state.timeForEyetracking = 11;
       }
     },
