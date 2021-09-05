@@ -55,6 +55,8 @@
                  var eyetracking= "Default";
                 if(document.getElementById('WebGazer').checked){
                     eyetracking= "WebGazer";
+                    //this.$store.commit('changeStateMachine', "Calibration");
+
                 }
                 if(document.getElementById('GazeCloud').checked){
                     eyetracking= "GazeCloud";
