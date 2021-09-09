@@ -11,8 +11,6 @@
 </template>
 
 <script>
-//import { set } from 'vue/types/umd';
-//import { mapGetters } from 'vuex'
     export default {
         name:"StartMenu",
         props: {
@@ -123,7 +121,8 @@
 
 <style scoped>
 div{
-
+    height: 100%;
+    width: 100%;
 }
 button{
     width: 30%;

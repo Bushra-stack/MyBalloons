@@ -55,7 +55,7 @@
                  var eyetracking= "Default";
                 if(document.getElementById('WebGazer').checked){
                     eyetracking= "WebGazer";
-                    //this.$store.commit('changeStateMachine', "Calibration");
+                    this.$store.commit('changeStateMachine', "beforeCali");
 
                 }
                 if(document.getElementById('GazeCloud').checked){
@@ -122,6 +122,7 @@ p{
     color: #0e8328;
     font-weight: bold;
     text-shadow: #eceaea 2px 1px 0px;
+    margin: 20px;
 }
 
 input[type=range]{

@@ -14,6 +14,10 @@
       <!-- <GameSettings @changeControl="changeTheControl"/> -->
       <GameSettings :xWG="x_wg" :yWG="y_wg"/>
     </section>
+    <beforeCali  v-if= "stateMachinegetter === 'beforeCali'"/>
+    <Calibration v-if= "stateMachinegetter === 'Calibration'"/>
+    <afterCali  v-if= "stateMachinegetter === 'afterCali'"/>
+
 
     <section  v-if= "stateMachinegetter === 'HighScore'">
       <HighScore :xWG="x_wg" :yWG="y_wg"/>
@@ -27,13 +31,18 @@ import GazeCloud from "@/components/GazeCloud.vue";
 import StartMenu from "@/components/StartMenu.vue";
 import Game from "@/components/Game.vue";
 import GameSettings from "@/components/GameSettings.vue";
+import beforeCali from "@/components/beforeCali.vue";
+import Calibration from "@/components/Calibration.vue";
+import afterCali from "@/components/afterCali.vue";
 import HighScore from "@/components/HighScore.vue";
+
+
 //import Init from "@/util/init.js";
 //import {hello} from "@/util/init.js";
 
 export default {
   name: "App",
-  components: {WebGazer, GazeCloud, StartMenu, Game, GameSettings, HighScore},
+  components: {WebGazer, GazeCloud, StartMenu, Game, GameSettings, beforeCali, Calibration, afterCali, HighScore},
   data() {
     return {
       x_wg: 0,
@@ -72,6 +81,8 @@ export default {
 <style scoped >
 #app{
   z-index: -100;
+  height: 100%;
+  width: 100%;
 }
 #game-score{
   position: absolute;
