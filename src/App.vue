@@ -18,7 +18,6 @@
     <Calibration v-if= "stateMachinegetter === 'Calibration'"/>
     <afterCali  v-if= "stateMachinegetter === 'afterCali'"/>
 
-
     <section  v-if= "stateMachinegetter === 'HighScore'">
       <HighScore :xWG="x_wg" :yWG="y_wg"/>
     </section>
